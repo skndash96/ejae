@@ -21,7 +21,7 @@ export default function RootLayout({
       </head>
 
       <body>
-        <div id="wrapper">
+        <div id="wrapper" className="min-h-screen flex flex-col">
           <Header />
           {children}
         </div>
