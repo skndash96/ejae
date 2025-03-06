@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Hero() {
   return (
-    <main className="mx-8 h-full relative text-center flex flex-col">
+    <main className="mx-8 mt-16 h-full relative text-center flex flex-col">
       <h1 className="text-5xl sm:text-6xl md:text-8xl font-bangers text-[#5a5a5a]">
         Hop into custom
       </h1>

@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function About() {
   return (
-    <section className="mx-8 mt-28 relative border-b">
+    <section className="mx-8 relative border-b">
       {/* Hard to make this responsive */}
       {/* <Image src="/images/about.png" className="z-[-1]" fill alt="Background" aria-hidden /> */}
       <Image className="w-72 z-[-1] absolute -left-8 -top-12 opacity-50" src="/images/dots.png" width={200} height={200} alt="Dots" aria-hidden />

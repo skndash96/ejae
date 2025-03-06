@@ -1,7 +1,9 @@
+'use client'
 import { Link2 } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as motion from 'motion/react-client'
+import Link from 'next/link'
 
 const items = [
   "SwapWear",
@@ -25,8 +27,21 @@ const items = [
 ]
 
 export default function Products() {
+  const [isLargeScreen, setIsLargeScreen] = React.useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth > 1024)
+    }
+
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
-    <section className="mt-10">
+    <section className="">
       <h1 className="text-4xl md:text-5xl font-bangers text-center">
         Our Products
       </h1>
@@ -34,7 +49,7 @@ export default function Products() {
       <div className="mt-16 relative">
         <div className="absolute w-12 md:w-40 right-0 z-[1] top-0 bottom-0 bg-gradient-to-l from-[#d9d9d9] to-transparent" />
         <div className="absolute w-12 md:w-40 left-0 z-[1] top-0 bottom-0 bg-gradient-to-r from-[#d9d9d9] to-transparent" />
-        <ul className="pl-8 pr-20 flex gap-16 bg-black/10 overflow-x-scroll no-scrollbar">
+        <ul className="pl-8 pr-20 flex gap-16 overflow-x-scroll no-scrollbar">
           {[
             {
               imageUrl: "/images/product.png",
@@ -69,7 +84,7 @@ export default function Products() {
               title: "Customised Shirts"
             },
           ].map((item, i) => (
-            <li key={i} className="p-2 block bg-white rounded-xl shadow-[5px_5px_#a2a2a2]">
+            <li key={i} className="p-2 block bg-white rounded-xl shadow-[5px_5px_black]">
               <div className="w-48 relative h-60">
                 <Image fill src={item.imageUrl} alt={item.title} />
               </div>
@@ -82,6 +97,10 @@ export default function Products() {
         </ul>
       </div>
 
+      <Link href="#" className="absolute z-[2] translate-y-12 translate-x-8 sm:translate-x-20 md:translate-x-52 lg:translate-x-96 px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
+        Explore
+      </Link>
+
       <div className="mt-8 relative py-20 overflow-hidden">
         <motion.ul
           className="flex -rotate-3"
@@ -90,13 +109,18 @@ export default function Products() {
           transition={{
             repeat: Infinity,
             repeatType: "loop",
-            duration: 20,
+            duration: isLargeScreen ? 20 : 10,
             ease: "linear",
           }}
         >
           {[...items, ...items].map((item, index) => (
-            <li key={index} className="px-8 py-1 bg-gray-800 text-white text-lg font-semibold">
-              {item}
+            <li key={index} className="py-1 bg-neutral-900 text-white text-lg font-semibold">
+              <span className='inline font-lucky'>
+                {item}
+              </span>
+              <span className='mx-8 inline'>
+                •
+              </span>
             </li>
           ))}
         </motion.ul>
@@ -107,13 +131,18 @@ export default function Products() {
           transition={{
             repeat: Infinity,
             repeatType: "loop",
-            duration: 20,
+            duration: isLargeScreen ? 20 : 10,
             ease: "linear",
           }}
         >
           {[...items, ...items].map((item, index) => (
-            <li key={index} className="px-8 py-1 bg-gray-800 text-white shadow-[5px_-2px_10px_white] text-lg font-semibold">
-              {item}
+            <li key={index} className="py-1 bg-neutral-900 text-white shadow-[5px_-2px_10px_black] text-lg font-semibold">
+              <span className='inline font-lucky'>
+                {item}
+              </span>
+              <span className='mx-8 inline'>
+                •
+              </span>
             </li>
           ))}
         </motion.ul>
