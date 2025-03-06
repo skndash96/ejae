@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Faqs() {
   return (
-    <section className='p-8 py-16 relative'>
+    <section id="faqs" className='p-8 py-16 relative'>
       <Image className='z-[-1] object-cover' src="/images/bg-dots.png" fill alt="Background" aria-hidden />
 
       <h1 className='text-4xl md:text-5xl font-bangers text-center'>

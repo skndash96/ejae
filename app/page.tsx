@@ -12,11 +12,11 @@ export default function Home() {
     <div className="grow w-full">
       <Hero />
 
-      <div className="my-16 -full border-b-2 border-gray-400" />
+      <div className="my-16 w-full border-b-2 border-gray-400" />
 
       <About />
 
-      <div className="my-16 -full border-b-2 border-gray-400" />
+      <div className="my-16 w-full border-b-2 border-gray-400" />
 
       <Products />
 

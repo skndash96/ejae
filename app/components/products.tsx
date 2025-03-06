@@ -31,7 +31,7 @@ export default function Products() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth > 1024)
+      setIsLargeScreen(window.matchMedia("(min-width: 1024px)").matches)
     }
 
     handleResize()
@@ -41,7 +41,7 @@ export default function Products() {
   }, [])
 
   return (
-    <section className="">
+    <section id="products" className="">
       <h1 className="text-4xl md:text-5xl font-bangers text-center">
         Our Products
       </h1>
@@ -97,7 +97,7 @@ export default function Products() {
         </ul>
       </div>
 
-      <Link href="/explore" className="absolute z-[2] translate-y-12 translate-x-8 sm:translate-x-20 md:translate-x-52 lg:translate-x-96 px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
+      <Link href="/products" className="absolute z-[2] translate-y-12 translate-x-8 sm:translate-x-20 md:translate-x-52 lg:translate-x-96 px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
         Explore
       </Link>
 
@@ -109,7 +109,7 @@ export default function Products() {
           transition={{
             repeat: Infinity,
             repeatType: "loop",
-            duration: isLargeScreen ? 20 : 10,
+            duration: isLargeScreen ? 30 : 10,
             ease: "linear",
           }}
         >
@@ -131,7 +131,7 @@ export default function Products() {
           transition={{
             repeat: Infinity,
             repeatType: "loop",
-            duration: isLargeScreen ? 20 : 10,
+            duration: isLargeScreen ? 30: 10,
             ease: "linear",
           }}
         >

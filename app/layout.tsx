@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "./components/header";
+import FixHeight from "./components/fixHeight";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -22,6 +23,7 @@ export default function RootLayout({
 
       <body>
         <div id="wrapper" className="min-h-screen flex flex-col">
+          <FixHeight />
           <Header />
           {children}
         </div>

@@ -25,6 +25,10 @@
   --font-lucky: 'Luckiest Guy', cursive;
 }
 
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #d9d9d9;
 }

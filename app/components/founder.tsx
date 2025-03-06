@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Founder() {
   return (
-    <div className='p-8 relative'>
+    <section id="founder" className='p-8 relative'>
       <Image className='z-[-1] grayscale object-cover' src="/images/founder-bg.png" fill alt="Background" aria-hidden />
       <h1 className='text-4xl md:text-5xl font-bangers text-center'>
         Founder&apos;s Story
@@ -29,6 +29,6 @@ export default function Founder() {
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

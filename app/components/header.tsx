@@ -5,20 +5,19 @@ import Link from "next/link";
 
 const links = [
   { name: "Home", href: "/" },
-  { name: "Products", href: "/explore" },
-  { name: "Customization", href: "/#customization" },
+  { name: "Products", href: "/products" },
   { name: "Social Media", href: "/#footer" },
   { name: "Happy Customers", href: "/#testimonials" },
 ]
 
 export function Header() {
   return (
-    <header className="py-4 flex justify-between gap-4">
+    <header className="py-4 sticky z-[3] top-0 bg-[#d9d9d9bb] backdrop-blur-lg flex justify-between gap-4 border-neutral-400 border-b">
       <h1 className="px-4">
         <Image src='/images/logo.png' width={50} height={30} alt="Logo" />
       </h1>
 
-      <ul className="px-12 max-lg:hidden flex gap-8 text-sm items-center bg-white rounded-tl-xl rounded-br-xl shadow-[2px_4px_black]">
+      <ul className="px-12 max-lg:hidden flex gap-8 items-center bg-white rounded-tl-xl rounded-br-xl shadow-[2px_4px_black]">
         {links.map((link) => (
           <li key={link.name}>
             <Link href={link.href} className="font-bangers">
@@ -32,7 +31,7 @@ export function Header() {
         <Link href="/sign-up" className="px-4 py-2 text-sm  bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
           Sign Up
         </Link>
-        <Link href="/" className="px-4">
+        <Link href="/cart" className="px-4">
           <Image className='drop-shadow-[2px_2px_black]' src="/images/shop.png" width='26' height='26' alt="Cart" />
         </Link>
         <Drawer direction="right">
