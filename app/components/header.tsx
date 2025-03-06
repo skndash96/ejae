@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const links = [
-  { name: "Home", href: "#" },
-  { name: "Products", href: "#" },
-  { name: "Customization", href: "#" },
-  { name: "Social Media", href: "#" },
-  { name: "Happy Customers", href: "#" },
+  { name: "Home", href: "/" },
+  { name: "Products", href: "/explore" },
+  { name: "Customization", href: "/#customization" },
+  { name: "Social Media", href: "/#footer" },
+  { name: "Happy Customers", href: "/#testimonials" },
 ]
 
 export function Header() {
@@ -29,8 +29,8 @@ export function Header() {
       </ul>
 
       <div className="px-4 flex items-center">
-        <Link href="#" className="px-4 py-2 text-sm  bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
-          Login
+        <Link href="/sign-up" className="px-4 py-2 text-sm  bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
+          Sign Up
         </Link>
         <Link href="/" className="px-4">
           <Image className='drop-shadow-[2px_2px_black]' src="/images/shop.png" width='26' height='26' alt="Cart" />

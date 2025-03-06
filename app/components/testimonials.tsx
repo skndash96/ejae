@@ -6,7 +6,7 @@ export default function Testimonials() {
       <h1 className='text-5xl font-bangers text-center'>
         Testimonials
       </h1>
-      <ul className='mt-8 flex flex-row flex-wrap gap-x-16 gap-y-8 justify-center items-center'>
+      <ul className='mt-8 max-w-7xl mx-auto flex flex-row flex-wrap gap-x-16 gap-y-8 justify-center items-center'>
         {new Array(5).fill(null).map((_, index) => (
           <li key={index} className='w-80 relative'>
             <div className='absolute top-0 left-0 font-bangers text-[#108ab1] drop-shadow-[4px_4px_black] text-9xl -translate-x-1/2'>

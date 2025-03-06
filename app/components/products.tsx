@@ -97,7 +97,7 @@ export default function Products() {
         </ul>
       </div>
 
-      <Link href="#" className="absolute z-[2] translate-y-12 translate-x-8 sm:translate-x-20 md:translate-x-52 lg:translate-x-96 px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
+      <Link href="/explore" className="absolute z-[2] translate-y-12 translate-x-8 sm:translate-x-20 md:translate-x-52 lg:translate-x-96 px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
         Explore
       </Link>
 

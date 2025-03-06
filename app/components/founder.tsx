@@ -7,7 +7,7 @@ export default function Founder() {
     <div className='p-8 relative'>
       <Image className='z-[-1] grayscale' src="/images/founder-bg.png" fill alt="Background" aria-hidden />
       <h1 className='text-4xl md:text-5xl font-bangers text-center'>
-        Founder's Story
+        Founder&apos;s Story
       </h1>
 
       <div className='my-20 flex flex-col justify-center items-center gap-4'>
