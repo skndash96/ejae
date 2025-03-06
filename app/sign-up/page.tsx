@@ -24,8 +24,8 @@ export default function Signup() {
   }
 
   return (
-    <div className='px-4 py-12 flex justify-center items-center flex-row gap-20'>
-      <form onSubmit={handleSubmit} className='px-12 py-6 w-full max-w-xl bg-[#eee] rounded-xl shadow-[5px_5px_black]'>
+    <div className='px-8 py-12 grow flex justify-center items-center flex-row gap-20'>
+      <form onSubmit={handleSubmit} className='px-8 py-6 w-full max-w-xl bg-[#eee] rounded-xl shadow-[5px_5px_black]'>
         <h1 className='text-5xl text-center font-bangers drop-shadow-[2px_2px_white]'>
           Sign Up
         </h1>
