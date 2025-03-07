@@ -74,6 +74,27 @@ export function Header() {
                   </Link>
                 </li>
               ))}
+
+              {currentUser ? (
+                <li>
+                  <Link href="/account" className="font-bangers">
+                    Account
+                  </Link>
+                </li>
+              ) : (
+                <div className="grid grid-cols-2 gap-2 place-items-center">
+                  <li className="w-full">
+                    <Link href="/sign-in" className="block font-bangers rounded-tl-xl rounded-br-xl border border-black p-2 text-center">
+                      Log in
+                    </Link>
+                  </li>
+                  <li className="w-full">
+                    <Link href="/sign-up" className="block font-bangers rounded-tl-xl rounded-br-xl bg-yellow-300 border border-black p-2 text-center">
+                      Sign Up
+                    </Link>
+                  </li>
+                </div>
+              )}
             </ul>
           </DrawerContent>
         </Drawer>
