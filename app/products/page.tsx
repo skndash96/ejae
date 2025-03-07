@@ -53,7 +53,7 @@ export default function Products() {
         </h1>
 
         <ul className='mt-8 flex flex-wrap justify-center gap-16 max-w-6xl mx-auto'>
-          {categories.map((category, index) => (
+          {categories.map(category => (
             <li key={category.name} className='relative'>
               <Link href={`/products/${category.name.toLowerCase()}`}>
                 <div className='p-2 bg-white rounded-xl shadow-[5px_5px_black]'>

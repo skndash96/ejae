@@ -1,6 +1,5 @@
 'use client'
-import { Drawer, DrawerTrigger } from '@/components/ui/drawer'
-import { Check, Menu } from 'lucide-react'
+import { Check } from 'lucide-react'
 import React from 'react'
 
 const categories = [
@@ -14,11 +13,7 @@ const categories = [
   'Embroidery',
 ]
 
-export default function Sidebar({
-
-}: {
-
-  }) {
+export default function Sidebar() {
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null)
 
   return (
