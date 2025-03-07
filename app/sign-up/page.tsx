@@ -20,7 +20,7 @@ export default function Signup() {
     if (currentUser) {
       router.push('/')
     }
-  }, [])
+  }, [currentUser, router])
 
   const handleGoogle = () => {
     setLoading(true)

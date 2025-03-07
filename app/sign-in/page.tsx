@@ -6,7 +6,7 @@ import { Eye, EyeClosed } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { FormEvent, use, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 
 export default function Login() {
   const { currentUser, signInWithGoogle, loginUser } = useUserContext()
@@ -20,7 +20,7 @@ export default function Login() {
     if (currentUser) {
       router.push('/')
     }
-  }, [])
+  }, [currentUser, router])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

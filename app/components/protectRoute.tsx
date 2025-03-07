@@ -21,7 +21,7 @@ export default function ProtectRoute() {
     if (isProtected && !currentUser) {
       router.push('/')
     }
-  }, [currentUser, userLoading])
+  }, [path, router, currentUser, userLoading])
   
   return null
 }
