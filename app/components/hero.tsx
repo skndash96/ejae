@@ -12,7 +12,7 @@ export default function Hero() {
       <div className="mt-6 w-fit mx-auto px-4 max-w-md flex flex-col items-center justify-center gap-4">
         <Image className="-ml-8 mr-4 sm:mr-8 top-0 lg:hidden w-36" src="/images/char-peace.png" width={200} height={400} alt="Charecter" aria-hidden />
 
-        <p className="text-sm text-left md:text-base font-comic">
+        <p className="text-sm text-left md:text-base">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         </p>
 
@@ -45,7 +45,7 @@ export default function Hero() {
         ].map((item, i) => (
           <div key={i} className="mt-8 p-4 w-60 bg-white border border-black rounded-xl shadow-[-10px_15px_black]">
             <h2 className="text-2xl font-bangers">{item.title}</h2>
-            <p className="mt-2 text-sm font-comic max-w-sm">{item.description}</p>
+            <p className="mt-2 text-sm max-w-sm">{item.description}</p>
           </div>
         ))}
       </div>

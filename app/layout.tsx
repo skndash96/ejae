@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "./components/header";
 import FixHeight from "./components/fixHeight";
+import { UserProvider } from "@/context/userContext";
+import ProtectRoute from "./components/protectRoute";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -21,13 +23,17 @@ export default function RootLayout({
         <link rel="icon" href="/images/logo.png" />
       </head>
 
-      <body>
-        <div id="wrapper" className="min-h-screen flex flex-col">
-          <FixHeight />
-          <Header />
-          {children}
-        </div>
-      </body>
+      <UserProvider>
+        <body>
+          <ProtectRoute />
+          
+          <div id="wrapper" className="min-h-screen flex flex-col">
+            <FixHeight />
+            <Header />
+            {children}
+          </div>
+        </body>
+      </UserProvider>
     </html>
   );
 }

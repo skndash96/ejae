@@ -36,11 +36,11 @@ export default function Faqs() {
         ].map((item, i) => (
           <AccordionItem key={i} value={`item${i}`}>
             <div className='bg-white rounded-tl-2xl rounded-br-2xl border border-black shadow-[5px_5px_black] px-4'>
-              <AccordionTrigger className='font-comic font-semibold'>
+              <AccordionTrigger className='font-semibold'>
                 {item.title}
               </AccordionTrigger>
 
-              <AccordionContent className='font-comic duration-200'>
+              <AccordionContent className='duration-200'>
                 {item.content}
               </AccordionContent>
             </div>

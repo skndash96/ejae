@@ -1,13 +1,26 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useUserContext } from '@/context/userContext'
 import { Eye, EyeClosed } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { FormEvent, use, useEffect, useState } from 'react'
 
 export default function Login() {
+  const { currentUser, signInWithGoogle, loginUser } = useUserContext()
+  const router = useRouter()
+
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (currentUser) {
+      router.push('/')
+    }
+  }, [])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -17,29 +30,73 @@ export default function Login() {
     const email = data.get('email') as string
     const password = data.get('password') as string
 
-    //validate
-    console.log(email, password)
+    if (!email || !password) {
+      return setError('Please fill all fields')
+    }
+
+    if (password.length < 6) {
+      return setError('Password must be at least 6 characters')
+    }
+
+    if (!email.includes('@')) {
+      return setError('Invalid email')
+    }
+
+    setLoading(true)
+    setError('')
+
+    loginUser(email, password)
+      .then(() => {
+        router.push('/')
+      })
+      .catch((e) => {
+        console.log(e)
+        setError(e.message)
+      })
+      .finally(() => setLoading(false))
+  }
+
+  const handleGoogle = () => {
+    setLoading(true)
+    setError('')
+
+    signInWithGoogle()
+      .then(() => {
+        router.push('/')
+      })
+      .catch((e) => {
+        setError(e.message)
+        console.log(e)
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
-    <div className='px-8 py-12 grow flex justify-center items-center flex-row gap-20'>
+    <div className='p-8 relative grow flex justify-center items-center flex-row gap-20'>
       <form onSubmit={handleSubmit} className='px-8 py-6 w-full max-w-xl bg-[#eee] rounded-xl shadow-[5px_5px_black]'>
-        <h1 className='text-5xl text-center font-bangers drop-shadow-[2px_2px_white]'>
+        <h1 className='text-3xl text-center font-bangers drop-shadow-[2px_2px_white]'>
           Login
         </h1>
 
-        <label className='mt-3 block font-comic' htmlFor="email">
+        <div className='py-4 border-b border-gray-400'>
+          <Button onClick={handleGoogle} disabled={loading} className='px-20 py-2 h-auto mx-auto font-lucky flex items-center gap-2 rounded-xl bg-blue-500 text-white shadow-[3px_3px_var(--color-orange-300)]' type="button">
+            <svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
+            Login with Google
+          </Button>
+        </div>
+
+        <label className='mt-3 text-sm block' htmlFor="email">
           Email
         </label>
 
-        <Input className='mt-1 py-3 h-auto font-comic bg-neutral-300 shadow-[3px_3px_black]' placeholder='name@example.com' type="email" name="email" />
+        <Input className='mt-1 py-2 h-auto bg-neutral-300 shadow-[3px_3px_black]' placeholder='name@example.com' type="email" name="email" />
 
-        <label className='mt-3 block font-comic' htmlFor="password">
+        <label className='mt-3 text-sm block' htmlFor="password">
           Password
         </label>
 
         <div className='relative'>
-          <Input className='mt-1 pr-12 py-3 h-auto font-comic bg-neutral-300 shadow-[3px_3px_black]' placeholder='Enter password' type={showPassword ? 'text' : 'password'} name="password" />
+          <Input className='mt-1 pr-12 py-2 h-auto bg-neutral-300 shadow-[3px_3px_black]' placeholder='Enter password' type={showPassword ? 'text' : 'password'} name="password" />
           <Button variant='ghost' type='button' onClick={() => setShowPassword(b => !b)} className='absolute top-1/2 -translate-y-1/2 right-2 hover:bg-transparent cursor-pointer'>
             {showPassword ? (
               <EyeClosed />
@@ -48,16 +105,22 @@ export default function Login() {
             )}
           </Button>
         </div>
-        <Link href="/forgot-password" className='mt-1 w-fit block ml-auto text-orange-600 text-sm'>
+        <Link href="/forgot-password" className='mt-1 w-fit block ml-auto text-blue-600 text-sm'>
           Forgot Password?
         </Link>
 
-        <Button className='mt-8 px-20 py-3 h-auto block mx-auto font-lucky rounded-xl bg-black text-white shadow-[3px_3px_var(--color-orange-300)]' type="submit">
+        {error && (
+          <div className='mt-4 text-red-500 text-center'>
+            {error}
+          </div>
+        )}
+
+        <Button disabled={loading} className='mt-4 px-20 py-2 h-auto block mx-auto font-lucky rounded-xl bg-black text-white shadow-[3px_3px_var(--color-orange-300)]' type="submit">
           Login
         </Button>
 
         <div className='mt-12 text-sm text-center'>
-          Don&apos;t have an account? <Link href="/sign-up" className='text-orange-600'> Sign up </Link>
+          Don&apos;t have an account? <Link href="/sign-up" className='text-blue-600'> Sign up </Link>
         </div>
       </form>
 

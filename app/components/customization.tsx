@@ -9,7 +9,7 @@ export default function Customization() {
       </h1>
 
       <div className='m-8 p-8 max-w-2xl bg-white rounded-lg shadow-[-5px_10px_black]'>
-        <p className="font-comic">
+        <p className="">
           At Ejae, customization means turning everyday fashion into a unique expression of your personality. From tees and hoodies to swapwear, personalized denim, and shoes, we empower you to design pieces that truly reflect who you are. With sustainability at our core, we craft eco-friendly, tailor-made fashion that tells your story. Redefine style and make it uniquely yours with Ejae!
         </p>
 

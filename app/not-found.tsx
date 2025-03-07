@@ -9,7 +9,7 @@ export default function NotFound() {
         You&apos;re lost
       </h1>
 
-      <Link href="/" className='font-comic text-lg bg-yellow-300 p-2 rounded-tr-xl rounded-bl-xl shadow-[5px_5px_black]'>
+      <Link href="/" className='text-lg bg-yellow-300 p-2 rounded-tr-xl rounded-bl-xl shadow-[5px_5px_black]'>
         Go Home
       </Link>
 

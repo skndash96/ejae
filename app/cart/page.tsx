@@ -67,7 +67,7 @@ export default function Cart() {
             </li>
           </ul>
 
-          <ul className="w-full font-comic">
+          <ul className="w-full">
             {items.map(item => (
               <li key={item.name} className='grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr_1fr] border-b border-gray-400'>
                 <div className='p-2 my-4 flex gap-2 self-start justify-self-start'>
@@ -106,7 +106,7 @@ export default function Cart() {
         </div>
       </div>
 
-      <div className='p-4 h-fit flex flex-col justify-between items-center font-comic bg-white rounded-2xl shadow-[4px_4px_black]'>
+      <div className='p-4 h-fit flex flex-col justify-between items-center bg-white rounded-2xl shadow-[4px_4px_black]'>
         <div>
           <span className='text-sm text-gray-500'>
             Enter your Coupon code if any

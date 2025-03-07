@@ -14,7 +14,7 @@ export default function About() {
           About Us
         </h1>
 
-        <div className="font-comic text-center flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className="text-center flex flex-col md:flex-row items-center justify-center gap-4">
           <Image src="/images/char-walk.png" alt="Charecter" className="w-32 md:w-40" width={200} height={400} />
 
           <div className="self-start max-w-2xl max-md:text-sm">

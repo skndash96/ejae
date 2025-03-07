@@ -66,7 +66,7 @@ export default function Products() {
                   </div>
                 </div>
 
-                <div className='mt-4 p-2 font-comic bg-white rounded-xl border border-black shadow-[4px_4px_black]'>
+                <div className='mt-4 p-2 bg-white rounded-xl border border-black shadow-[4px_4px_black]'>
                   Starting at ₹{category.startingPrice}
                 </div>
               </Link>
