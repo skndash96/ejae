@@ -113,7 +113,7 @@ export default function Signup() {
         </label>
 
         <div className='relative'>
-          <Input className='mt-1 pr-12 py-2 h-auto bg-neutral-300 shadow-[3px_3px_black]' placeholder='Enter password' type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" />
+          <Input className='mt-1 pr-12 py-2 h-auto bg-neutral-300 shadow-[3px_3px_black]' placeholder='Enter password again' type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" />
           <Button variant='ghost' type='button' onClick={() => setShowConfirmPassword(b => !b)} className='absolute top-1/2 -translate-y-1/2 right-2 hover:bg-transparent cursor-pointer'>
             {showConfirmPassword ? (
               <EyeClosed />
