@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import React from 'react'
 
@@ -25,9 +26,9 @@ export default function Sidebar() {
       <ul className='flex flex-col font-bangers min-w-52'>
         {categories.map(category => (
           <li key={category}>
-            <button
-              className={`p-2 w-full flex items-center gap-2 border-b border-gray-400 cursor-pointer text-left ${
-                selectedCategory === category ? 'bg-yellow-300' : 'bg-gray-200 hover:bg-gray-300'
+            <Button
+              className={`pl-4 p-2 w-full h-auto justify-start gap-2 border-b border-gray-400 rounded-none text-black cursor-pointer text-base text-left ${
+                selectedCategory === category ? 'bg-yellow-300 hover:bg-yellow-300' : 'bg-gray-200 hover:bg-gray-300'
               }`}
               onClick={() => setSelectedCategory(category)}
             >
@@ -35,7 +36,7 @@ export default function Sidebar() {
                 <Check />
               )}
               {category}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
