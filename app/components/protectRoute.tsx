@@ -4,8 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 const protectedRoutes = [
-  "/account",
-  "/profile"
+  "/account"
 ]
 
 export default function ProtectRoute() {

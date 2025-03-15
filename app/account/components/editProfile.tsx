@@ -26,19 +26,17 @@ export default function EditProfile({
 }
 
 const InnerComponent = () => {
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget)
+    console.log(Object.fromEntries(formData))
     e.preventDefault()
   }
   
   return (
     <form onSubmit={handleSubmit} className='p-4 pt-0 flex flex-col gap-2 bg-white'>
       <div>
-        <label htmlFor='username' className='text-sm font-bold'>Username</label>
-        <Input name='username' type='text' placeholder='Username' />
-      </div>
-      <div>
-        <label htmlFor='email' className='text-sm font-bold'>Email</label>
-        <Input name='email' type='email' placeholder='Email' />
+        <label htmlFor='name' className='text-sm font-bold'>Name</label>
+        <Input name='name' type='text' placeholder='Your name' />
       </div>
       <div>
         <label htmlFor='phone' className='text-sm font-bold'>Phone Number</label>
@@ -48,7 +46,7 @@ const InnerComponent = () => {
         <label htmlFor='birthday' className='text-sm font-bold'>Birthday</label>
         <Input name='birthday' type='date' placeholder='Birthday' />
       </div>
-      <div tabIndex={0} className='self-end flex gap-2 justify-end'>
+      <div className='self-end flex gap-2 justify-end'>
         <DialogClose asChild>
           <Button type="button" variant='ghost' className='mt-4'>
             Cancel
