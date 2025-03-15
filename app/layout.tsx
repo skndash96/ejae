@@ -4,6 +4,7 @@ import { Header } from "./components/header";
 import FixHeight from "./components/fixHeight";
 import { UserProvider } from "@/context/userContext";
 import ProtectRoute from "./components/protectRoute";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -26,12 +27,14 @@ export default function RootLayout({
       <UserProvider>
         <body>
           <ProtectRoute />
-          
+
           <div id="wrapper" className="min-h-screen flex flex-col">
             <FixHeight />
             <Header />
             {children}
           </div>
+          
+          <ToastContainer />
         </body>
       </UserProvider>
     </html>

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '../utils/init-firebase';
+import { auth, firestore } from '../utils/init-firebase';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -20,9 +20,17 @@ import {
 } from 'firebase/auth';
 import { upload_url, default_profile_image } from '../utils/constants';
 import axios from 'axios';
+import { doc, getDoc } from 'firebase/firestore';
+
+type UserData = {
+  name: string;
+  phone: string;
+  birthday: string;
+} | null | undefined;
 
 interface UserContextType {
   currentUser: User | null;
+  currentUserData: UserData;
   userLoading: boolean;
   registerUser: (email: string, password: string) => Promise<UserCredential>;
   loginUser: (email: string, password: string) => Promise<UserCredential>;
@@ -43,6 +51,7 @@ export const UserProvider = ({ children }: {
   children: React.ReactNode;
 }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUserData, setCurrentUserData] = useState<UserData>(undefined);
   const [loading, setLoading] = useState(true);
 
   const registerUser = (email: string, password: string) => {
@@ -135,17 +144,32 @@ export const UserProvider = ({ children }: {
     if (!currentUser) {
       return;
     }
+    
+    const userDoc = doc(firestore, 'users', currentUser.uid);
+
+    getDoc(userDoc)
+    .then(doc => {
+      if (doc.exists()) {
+        setCurrentUserData(doc.data() as UserData || null);
+      }
+    })
+    .catch(() => {
+      console.log('Error occured');
+    })
+
     if (!currentUser.photoURL) {
       updateUserProfileImage(default_profile_image)
         .then(() => setCurrentUser(currentUser))
         .catch(() => console.log('Error occured'));
     }
+    
   }, [currentUser]);
 
   return (
     <UserContext.Provider
       value={{
         currentUser,
+        currentUserData,
         userLoading: loading,
         registerUser,
         loginUser,

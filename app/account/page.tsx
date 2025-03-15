@@ -21,7 +21,6 @@ export default function AccountPage() {
       </h2>
 
       <div className='flex gap-4'>
-
         <EditProfile trigger={
           <Button className='h-auto font-lucky flex justify-center items-center gap-4 rounded-xl text-black bg-white hover:bg-gray-200 border border-black shadow-[4px_4px_black]'>
             <User strokeWidth={3} />
@@ -29,12 +28,12 @@ export default function AccountPage() {
           </Button>
         } />
 
-        <EditAddress trigger={
+        {/* <EditAddress trigger={
           <Button className='h-auto font-lucky flex justify-center items-center gap-4 rounded-xl text-black bg-white hover:bg-gray-200 border border-black shadow-[4px_4px_black]'>
             <User strokeWidth={3} />
             Edit Address
           </Button>
-        } />
+        } /> */}
       </div>
 
       <div className='mt-12'>
