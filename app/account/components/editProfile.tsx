@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogClose, DialogOverlay, DialogContent, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useUserContext } from '@/context/userContext'
 import { firestore } from '@/utils/init-firebase'

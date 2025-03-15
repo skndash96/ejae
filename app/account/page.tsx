@@ -4,7 +4,7 @@ import React from 'react'
 import LogoutButton from './components/logoutButton'
 import EditProfile from './components/editProfile'
 import { Button } from '@/components/ui/button'
-import EditAddress from './components/editAddress'
+// import EditAddress from './components/editAddress'
 import { User } from 'lucide-react'
 
 export default function AccountPage() {
