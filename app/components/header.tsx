@@ -72,29 +72,37 @@ export function Header() {
             <ul className="p-4 flex flex-col gap-4">
               {links.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="font-bangers">
-                    {link.name}
-                  </Link>
+                  <DrawerClose asChild>
+                    <Link href={link.href} className="font-bangers">
+                      {link.name}
+                    </Link>
+                  </DrawerClose>
                 </li>
               ))}
 
               {currentUser ? (
                 <li>
-                  <Link href="/account" className="font-bangers">
-                    Account
-                  </Link>
+                  <DrawerClose asChild>
+                    <Link href="/account" className="font-bangers">
+                      Account
+                    </Link>
+                  </DrawerClose>
                 </li>
               ) : (
                 <div className="grid grid-cols-2 gap-2 place-items-center">
                   <li className="w-full">
-                    <Link href="/sign-in" className="block font-bangers rounded-tl-xl rounded-br-xl border border-black p-2 text-center">
-                      Log in
-                    </Link>
+                    <DrawerClose asChild>
+                      <Link href="/sign-in" className="block font-bangers rounded-tl-xl rounded-br-xl border border-black p-2 text-center">
+                        Log in
+                      </Link>
+                    </DrawerClose>
                   </li>
                   <li className="w-full">
-                    <Link href="/sign-up" className="block font-bangers rounded-tl-xl rounded-br-xl bg-yellow-300 border border-black p-2 text-center">
-                      Sign Up
-                    </Link>
+                    <DrawerClose asChild>
+                      <Link href="/sign-up" className="block font-bangers rounded-tl-xl rounded-br-xl bg-yellow-300 border border-black p-2 text-center">
+                        Sign Up
+                      </Link>
+                    </DrawerClose>
                   </li>
                 </div>
               )}
