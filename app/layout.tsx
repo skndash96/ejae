@@ -5,6 +5,7 @@ import FixHeight from "./components/fixHeight";
 import { UserProvider } from "@/context/userContext";
 import ProtectRoute from "./components/protectRoute";
 import { ToastContainer } from "react-toastify";
+import Footer from "./components/footer";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -32,6 +33,7 @@ export default function RootLayout({
             <FixHeight />
             <Header />
             {children}
+            <Footer />
           </div>
           
           <ToastContainer />

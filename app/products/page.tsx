@@ -1,79 +1,60 @@
 'use client'
 
 import React from 'react'
-import Sidebar from './components/sidebar'
-import Link from 'next/link'
+import Categories from './components/categories'
+import { categories, products } from './data'
 import Image from 'next/image'
-
-const categories = [
-  {
-    imageUrl: "/images/hoodies.png",
-    name: "Hoodies",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/sweatshirt.png",
-    name: "Sweatshirt",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/tees.png",
-    name: "TShirts",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/denims.png",
-    name: "Denims",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/swapdenims.png",
-    name: "Swap Denims",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/embroidery.png",
-    name: "Embroidery",
-    startingPrice: 700
-  },
-  {
-    imageUrl: "/images/shoes.png",
-    name: "Shoes",
-    startingPrice: 700
-  },
-]
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function Products() {
   return (
-    <div className='grow bg-[#d0d0d0] flex flex-col lg:flex-row min-h-0 w-full'>
-      <Sidebar />
-      <main className='p-8 bg-[#d9d9d9] grow min-h-0 lg:h-full lg:overflow-y-auto'>
-        <h1 className='text-5xl text-center font-bangers'>
-          Explore
-        </h1>
+    <main className='py-8 grow bg-white'>
+      <h1 className='mb-8 text-5xl text-center font-bangers'>
+        Explore
+      </h1>
 
-        <ul className='mt-8 flex flex-wrap justify-center gap-16 max-w-6xl mx-auto'>
-          {categories.map(category => (
-            <li key={category.name} className='relative'>
-              <Link href={`/products/${category.name.toLowerCase()}`}>
-                <div className='p-2 bg-white rounded-xl shadow-[5px_5px_black]'>
-                  <div className='bg-[#d9d9d9] rounded-t-xl'>
-                    <Image className='w-44 h-36 rounded-t-xl' src={category.imageUrl} alt={category.name} width={200} height={300} />
-                  </div>
+      <Categories />
 
-                  <div className='p-2 bg-black text-white rounded-b-xl text-center font-lucky'>
-                    {category.name}
-                  </div>
-                </div>
+      <ul className='mt-8 flex flex-col gap-8'>
+        {categories.map((category) => (
+          <ul key={category.name}>
+            <li>
+              <h2 className='ml-8 font-lucky text-2xl'>
+                {category.name}
+              </h2>
 
-                <div className='mt-4 p-2 bg-white rounded-xl border border-black shadow-[4px_4px_black]'>
-                  Starting at ₹{category.startingPrice}
-                </div>
-              </Link>
+              <ul className='mt-2 px-8 flex gap-4  overflow-x-auto'>
+                {products.map(product => (
+                  <li key={product.name} className='block rounded-xl'>
+                    <div className='w-52 h-44 relative rounded-t-xl bg-[#d9d9d9]'>
+                      <Image className='w-full h-auto object-contain' fill src={product.imageUrl} alt={product.name} />
+                    </div>
+                    <div className='p-2'>
+                      <div>
+                        <h3 className='font-bold'>
+                          {product.name}
+                        </h3>
+                        <p className='text-lg'>
+                          ₹{product.price}
+                        </p>
+                      </div>
+                      <div>
+                        <Button asChild className='mt-2 hover:cursor-pointer'>
+                          <Link href={`/products/${product.id}`} className=''>
+                            Details
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </li>
+                ))
+                }
+              </ul>
             </li>
-          ))}
-        </ul>
-      </main>
-    </div>
+          </ul>
+        ))}
+      </ul>
+    </main>
   )
 }
