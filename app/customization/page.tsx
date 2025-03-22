@@ -1,23 +1,83 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Check } from 'lucide-react'
+import { Check, ChevronLeft } from 'lucide-react'
 import React, { FormEvent } from 'react'
+import Categories from '../products/components/categories'
+import { useCart } from '@/context/cartContext'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 export default function Customization() {
+  const cart = useCart()
+  const [selectedCategory, setSelectedCategory] = React.useState<string | undefined>()
   const fileRef = React.useRef<HTMLInputElement>(null)
   const [files, setFiles] = React.useState<FileList | null>(null)
+  const router = useRouter()
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget)
+
     e.preventDefault()
+
+    if (!formData.get('color')) {
+      toast.error('Please select a color.')
+      return;
+    }
+
+    if (!formData.get('fit')) {
+      toast.error('Please select a size.')
+      return;
+    }
+
+    if (!formData.get('requirements') || (formData.get('requirements') as string).trim() === '') {
+      toast.error('Please describe your final requirements.')
+      return;
+    }
+
+    cart.dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        id: Date.now().toString(),
+        selectedColor: formData.get('color') as string,
+        selectedSize: formData.get('fit') as string,
+        colors: [],
+        sizes: [],
+        description: formData.get('requirements') as string,
+        images: files ? Array.from(files).map(file => URL.createObjectURL(file)) : [],
+        name: 'Customized ' + selectedCategory,
+        price: 0,
+        category: selectedCategory!,
+        quantity: 1
+      }
+    })
+
+    toast.success('Added to cart!')
+    
+    router.push('/cart')
   }
+
+  if (!selectedCategory) return (
+    <div className='px-4 py-8 flex flex-col justify-center gap-8 w-full'>
+      <h1 className='font-lucky text-3xl text-center drop-shadow-[2px_2px_white]'>
+        Customization
+      </h1>
+
+      <Categories onSelect={(name) => setSelectedCategory(name)} />
+    </div>
+  )
 
   return (
     <div className='px-4 py-8 flex flex-col justify-center gap-8 w-full max-w-xl lg:max-w-3xl mx-auto'>
-      <h1 className='font-lucky text-5xl text-center drop-shadow-[2px_2px_white]'>
-        Hoodies
-      </h1>
 
+      <h1 className='font-lucky text-5xl text-center flex items-center'>
+        <Button className='mr-4' variant='outline' onClick={() => setSelectedCategory(undefined)}>
+          <ChevronLeft />
+        </Button>
+        <span className='drop-shadow-[2px_2px_white]'>
+          {selectedCategory}
+        </span>
+      </h1>
 
       <form onSubmit={handleSubmit}>
         <div className='flex flex-col md:flex-row justify-between gap-20'>
@@ -55,7 +115,7 @@ export default function Customization() {
                 ].map(color => (
                   <li key={color.name} className='grid grid-cols-[1rem_4rem_1fr] gap-4'>
                     <label className="flex items-center cursor-pointer">
-                      <input type="radio" name="color" className="peer hidden" />
+                      <input type="radio" name="color" value={color.name} className="peer hidden" />
                       <div className="w-6 h-6 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-black">
                         <div className="w-3 h-3 bg-white rounded-full peer-checked:scale-100 scale-0 transition"></div>
                         <Check className='text-[#d9d9d9] -ml-2' />
@@ -82,7 +142,7 @@ export default function Customization() {
                 ].map(fit => (
                   <li key={fit} className='grid grid-cols-[1rem_1fr] gap-4'>
                     <label className="flex items-center cursor-pointer">
-                      <input type="radio" name="fit" className="peer hidden" />
+                      <input type="radio" name="fit" value={fit} className="peer hidden" />
                       <div className="w-6 h-6 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-black">
                         <div className="w-3 h-3 bg-white rounded-full peer-checked:scale-100 scale-0 transition"></div>
                         <Check className='text-[#d9d9d9] -ml-2' />
@@ -123,7 +183,7 @@ export default function Customization() {
         </div>
 
         <Button className='w-fit block mt-12 mx-auto px-16 bg-yellow-300 hover:bg-yellow-400 drop-shadow-[3px_3px_black] text-black font-semibold'>
-          Place Order
+          Add to Cart
         </Button>
       </form>
     </div>
