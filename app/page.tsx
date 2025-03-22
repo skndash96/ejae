@@ -1,7 +1,6 @@
 import About from "./components/about";
 import Customization from "./components/customization";
 import Faqs from "./components/faqs";
-import Footer from "./components/footer";
 import Founder from "./components/founder";
 import Hero from "./components/hero";
 import Products from "./components/products";

@@ -3,9 +3,7 @@
 import React from 'react'
 import Categories from './components/categories'
 import { categories, products } from './data'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import ProductCard from './components/productCard'
 
 export default function Products() {
   return (
@@ -26,30 +24,8 @@ export default function Products() {
 
               <ul className='mt-2 px-8 flex gap-4  overflow-x-auto'>
                 {products.map(product => (
-                  <li key={product.name} className='block rounded-xl'>
-                    <div className='w-52 h-44 relative rounded-t-xl bg-[#d9d9d9]'>
-                      <Image className='w-full h-auto object-contain' fill src={product.imageUrl} alt={product.name} />
-                    </div>
-                    <div className='p-2'>
-                      <div>
-                        <h3 className='font-bold'>
-                          {product.name}
-                        </h3>
-                        <p className='text-lg'>
-                          ₹{product.price}
-                        </p>
-                      </div>
-                      <div>
-                        <Button asChild className='mt-2 hover:cursor-pointer'>
-                          <Link href={`/products/${product.id}`} className=''>
-                            Details
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </li>
-                ))
-                }
+                  <ProductCard key={product.id} product={product} />
+                ))}
               </ul>
             </li>
           </ul>

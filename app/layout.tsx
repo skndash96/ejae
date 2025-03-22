@@ -6,6 +6,7 @@ import { UserProvider } from "@/context/userContext";
 import ProtectRoute from "./components/protectRoute";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/footer";
+import { CartProvider } from "@/context/cartContext";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -26,18 +27,21 @@ export default function RootLayout({
       </head>
 
       <UserProvider>
-        <body>
-          <ProtectRoute />
+        <CartProvider>
 
-          <div id="wrapper" className="min-h-screen flex flex-col">
-            <FixHeight />
-            <Header />
-            {children}
-            <Footer />
-          </div>
-          
-          <ToastContainer />
-        </body>
+          <body>
+            <ProtectRoute />
+
+            <div id="wrapper" className="min-h-screen flex flex-col">
+              <FixHeight />
+              <Header />
+              {children}
+              <Footer />
+            </div>
+
+            <ToastContainer />
+          </body>
+        </CartProvider>
       </UserProvider>
     </html>
   );

@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation"
 import { products } from "../data"
+import Product from "../components/product"
 
 export default async function ProductPage({
   params
@@ -7,11 +9,16 @@ export default async function ProductPage({
 }) {
   const { productId } = await params
 
-  const product = products.find(product => product.id === Number(productId))
+  const product = products.find(product => product.id === productId)
+
+  if (!product) {
+    redirect("/404")
+    return null
+  }
 
   return (
     <div className="grow">
-      heello
+      <Product product={product} />
     </div>
   )
 }
