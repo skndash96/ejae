@@ -13,7 +13,6 @@ export default function Cart() {
 
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-
   return (
     <div className='px-4 py-8 flex flex-col justify-center lg:flex-row gap-8'>
       <div className='overflow-x-auto'>

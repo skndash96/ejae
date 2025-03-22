@@ -1,8 +1,8 @@
 'use client'
-import { Product } from '@/app/types';
+import { CustomProduct, Product } from '@/app/types';
 import React, { createContext, useReducer, useEffect, ReactNode, useContext } from 'react';
 
-type CartItem = Product & { quantity: number, selectedColor?: string, selectedSize?: string };
+type CartItem = (Product & { quantity: number, selectedColor?: string, selectedSize?: string }) | CustomProduct;
 
 interface CartState {
   items: CartItem[];
