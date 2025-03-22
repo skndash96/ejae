@@ -25,15 +25,15 @@ export const categories = [
     startingPrice: 1500
   },
   {
+    imageUrl: "/images/apparel/shoes.png",
+    name: "Shoes",
+    startingPrice: 2000
+  },
+  {
     imageUrl: "/images/apparel/embroidery.png",
     name: "Embroidery",
     startingPrice: 900
   },
-  {
-    imageUrl: "/images/apparel/shoes.png",
-    name: "Shoes",
-    startingPrice: 2000
-  }
 ]
 
 export const products = [

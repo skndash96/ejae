@@ -18,8 +18,8 @@ export default function Cart() {
     <div className='px-4 py-8 flex flex-col justify-center lg:flex-row gap-8'>
       <div className='overflow-x-auto'>
         <div className='max-w-4xl mx-auto min-w-fit'>
-          <ul className='grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr_1fr] gap-4 rounded-2xl bg-black text-white font-lucky *:text-center'>
-            <li>Product</li>
+          <ul className='pr-4 grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr_1fr] gap-4 rounded-2xl bg-black text-white font-lucky *:text-center'>
+            <li>Cart Item</li>
             <li>Price</li>
             <li>Quantity</li>
             <li>Shipping</li>
@@ -76,7 +76,7 @@ export default function Cart() {
           <span>₹{items.length > 0 ? 'Free' : '0'}</span>
           <span className='mt-2'>Grand Total</span>
           <span className='mt-2'>₹{subtotal}</span>
-          <div className='mt-4 pt-8 flex gap-4 col-span-2 border-t border-gray-400'>
+          <div className='mt-4 pt-4 flex flex-wrap justify-end gap-2 col-span-2 border-t border-gray-400'>
             <Button onClick={() => router.back()} variant='outline' className='px-8 py-2 cursor-pointer border border-gray-400 rounded-xl text-sm'>
               Continue Shopping
             </Button>

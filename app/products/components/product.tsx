@@ -26,12 +26,11 @@ export default function ProductComponent({ product }: { product: Product }) {
 
   return (
     <div className='max-w-4xl mx-auto flex flex-col md:flex-row md:my-8 justify-center gap-8 p-6 bg-white shadow-lg rounded-2xl'>
-      <Button variant='outline' onClick={() => router.back()} className='mb-4 cursor-pointer'>
-        <ChevronLeft size={16} className='mr-2' />
-        Back
+      <Button variant='outline' onClick={() => router.back()} className='w-fit cursor-pointer'>
+        <ChevronLeft size={16} />
       </Button>
 
-      <Carousel className='w-72' showArrows={true} infiniteLoop>
+      <Carousel className='p-2 w-full max-w-80 mx-auto shadow-lg bg-gray-200 rounded-lg' showArrows={true} infiniteLoop>
         {product.images.map((url, index) => (
           <div key={index}>
             <img src={url} alt={product.name} className='rounded-xl' />
@@ -39,7 +38,7 @@ export default function ProductComponent({ product }: { product: Product }) {
         ))}
       </Carousel>
 
-      <div className='py-8 flex-1'>
+      <div className='flex-1'>
         <h1 className='text-3xl font-bold'>{product.name}</h1>
         <p className='text-sm text-gray-500'>by {product.company}</p>
         <div className='flex items-center gap-2 mt-2'>

@@ -24,7 +24,7 @@ export default function Category({
         {id} Category
       </h1>
 
-      <ul className="mt-8 mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+      <ul className="mt-8 mb-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {products.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
