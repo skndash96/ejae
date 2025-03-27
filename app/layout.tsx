@@ -7,6 +7,7 @@ import ProtectRoute from "./components/protectRoute";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/footer";
 import { CartProvider } from "@/context/cartContext";
+import Help from "./components/help";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -28,7 +29,6 @@ export default function RootLayout({
 
       <UserProvider>
         <CartProvider>
-
           <body>
             <ProtectRoute />
 
@@ -40,6 +40,7 @@ export default function RootLayout({
             </div>
 
             <ToastContainer />
+            <Help />
           </body>
         </CartProvider>
       </UserProvider>

@@ -34,6 +34,11 @@ export const categories = [
     name: "Embroidery",
     startingPrice: 900
   },
+  {
+    imageUrl: "/images/logo.png",
+    name: 'Others',
+    startingPrice: 1000
+  }
 ]
 
 export const products = [

@@ -11,7 +11,7 @@ export default function AccountPage() {
   const { currentUser } = useUserContext()
 
   return (
-    <div className='p-8 w-full max-w-3xl mx-auto'>
+    <div className='grow p-8 w-full max-w-3xl mx-auto'>
       <h1 className='text-3xl font-bangers'>
         Account
       </h1>

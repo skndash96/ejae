@@ -7,6 +7,7 @@ import Categories from '../products/components/categories'
 import { useCart } from '@/context/cartContext'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function Customization() {
   const cart = useCart()
@@ -53,24 +54,23 @@ export default function Customization() {
     })
 
     toast.success('Added to cart!')
-    
+
     router.push('/cart')
   }
 
   if (!selectedCategory) return (
-    <div className='px-4 py-8 flex flex-col justify-center gap-8 w-full'>
+    <div className='grow px-4 pt-12 pb-24 flex flex-col justify-center gap-8 w-full'>
       <h1 className='font-lucky text-3xl text-center drop-shadow-[2px_2px_white]'>
         Customization
       </h1>
 
-      <Categories onSelect={(name) => setSelectedCategory(name)} />
+      <Categories animated size={'lg'} onSelect={(name) => setSelectedCategory(name)} />
     </div>
   )
 
   return (
-    <div className='px-4 py-8 flex flex-col justify-center gap-8 w-full max-w-xl lg:max-w-3xl mx-auto'>
-
-      <h1 className='font-lucky text-5xl text-center flex items-center'>
+    <div className='grow px-4 py-8 flex flex-col justify-center gap-8 w-full max-w-xl lg:max-w-3xl mx-auto'>
+      <h1 className='font-lucky text-4xl md:text-5xl text-center flex items-center'>
         <Button className='mr-4' variant='outline' onClick={() => setSelectedCategory(undefined)}>
           <ChevronLeft />
         </Button>
@@ -80,7 +80,7 @@ export default function Customization() {
       </h1>
 
       <form onSubmit={handleSubmit}>
-        <div className='flex flex-col md:flex-row justify-between gap-20'>
+        <div className='flex flex-col md:flex-row justify-between gap-12'>
           <div className='w-fit mx-auto flex flex-col sm:flex-row gap-8'>
             <div>
               <h3 className='text-xl'>
@@ -127,6 +127,28 @@ export default function Customization() {
                     <div className='w-16 h-8' style={{ backgroundColor: color.hex }} />
                   </li>
                 ))}
+                <li className='grid grid-cols-[1rem_4rem_1fr] gap-4'>
+                  <label className="flex items-center cursor-pointer">
+                    <input type="radio" name="color" value="custom" className="peer hidden" />
+                    <div className="w-6 h-6 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-black">
+                      <div className="w-3 h-3 bg-white rounded-full peer-checked:scale-100 scale-0 transition"></div>
+                      <Check className='text-[#d9d9d9] -ml-2' />
+                    </div>
+                  </label>
+
+                  <span>Custom</span>
+
+                  <input
+                    type="color"
+                    name="customColor"
+                    defaultValue="#ffff00"
+                    className="w-16 h-8 border border-gray-400 rounded hover:cursor-pointer"
+                    onClick={(e) => {
+                      const radio = (e.target as HTMLInputElement).closest('li')?.querySelector('input[type="radio"]');
+                      if (radio) (radio as HTMLInputElement).checked = true;
+                    }}
+                  />
+                </li>
               </ul>
             </div>
 
@@ -135,7 +157,7 @@ export default function Customization() {
                 Sizes Available
               </h3>
 
-              <ul className='mt-4 flex flex-col gap-2'>
+              <ul className='mt-4 mb-8 flex flex-col gap-2'>
                 {[
                   'OverSized',
                   'Regular Fit'
@@ -153,6 +175,8 @@ export default function Customization() {
                   </li>
                 ))}
               </ul>
+
+              <ZoomableImage src='https://cdn.shopify.com/s/files/1/0768/5331/3822/files/SIZE-CHART-FOR-MENS-FULL-PANT.jpg?v=1735302557' alt='Size Chart' />
             </div>
           </div>
 
@@ -167,12 +191,11 @@ export default function Customization() {
                   {files && files.length > 0 ? `${files?.length} File${files.length > 1 ? 's' : ''} Selected` : "Upload Files"}
                 </span>
 
-
                 <input ref={fileRef} onChange={e => setFiles(e.currentTarget.files)} name='file' multiple className='p-0 bg-white max-w-0 h-0 overflow-hidden' type='file' />
               </label>
             </div>
 
-            <div>
+            <div className='mt-4'>
               <h3 className='text-lg'>
                 Describe your Final Requirements
               </h3>
@@ -182,10 +205,38 @@ export default function Customization() {
           </div>
         </div>
 
-        <Button className='w-fit block mt-12 mx-auto px-16 bg-yellow-300 hover:bg-yellow-400 drop-shadow-[3px_3px_black] text-black font-semibold'>
-          Add to Cart
-        </Button>
+        <div className='grid grid-cols-2 gap-2 w-fit mx-auto'>
+          <Button className='w-fit block mt-12 mx-auto px-16 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
+            Buy Now
+          </Button>
+          <Button className='w-fit block mt-12 mx-auto px-16 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>
+            Add to Cart
+          </Button>
+        </div>
       </form>
+    </div>
+  )
+}
+
+const ZoomableImage = ({ src, alt }: { src: string, alt: string }) => {
+  const [zoomed, setZoomed] = React.useState(false)
+
+  return (
+    <div className=''>
+      <div>
+        <Image src={src} alt={alt} width={300} height={300} onClick={() => setZoomed(true)} className='hover:cursor-zoom-in' />
+      </div>
+
+      {zoomed && (
+        <div className='z-[4] fixed inset-0 bg-black/25 flex flex-col items-center pt-20' onClick={() => setZoomed(false)}>
+          <div className='w-[90%] max-w-xl'>
+            <Button className='mb-2 self-start bg-white text-black hover:bg-gray-200' onClick={() => setZoomed(false)}>
+              <ChevronLeft />
+            </Button>
+            <Image src={src} alt={alt} width={500} height={500} className=' animate-in' />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

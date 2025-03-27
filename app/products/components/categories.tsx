@@ -2,43 +2,73 @@
 import Link from "next/link"
 import { categories } from "../data"
 import Image from "next/image"
+import { motion } from "framer-motion"
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
 
 export default function Categories({
-  onSelect
+  onSelect,
+  animated = false,
+  size = 'sm'
 }: {
+  animated?: boolean
+  size?: 'sm' | 'lg'
   onSelect?: (name: string) => void
 }) {
   return (
-    <div className="px-4 py-2 bg-white rounded-xl">
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 max-w-5xl justify-center gap-4 w-fit mx-auto">
+    <div className="px-4 py-2 rounded-xl">
+      <motion.ul 
+        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-8 ${size === 'lg' ? 'max-w-7xl' : 'max-w-6xl'} items-stretch place-items-stretch justify-center gap-4 mx-auto`} 
+        initial={animated ? 'hidden' : undefined}
+        animate={animated ? 'show' : undefined}
+        variants={containerVariants}
+      >
         {categories.map(category => (
-          <li key={category.name} className=''>
+          <motion.li 
+            key={category.name} 
+            className='w-full' 
+            variants={itemVariants}
+          >
             {onSelect ? (
-              <button className="block hover:cursor-pointer" onClick={() => onSelect(category.name)}>
-                <CategoryInner category={category} />
+              <button className="block hover:cursor-pointer w-full" onClick={() => onSelect(category.name)}>
+                <CategoryInner size={size} category={category} />
               </button>
             ) : (
               <Link href={`/products/categories/${category.name.toLowerCase()}`}>
-                <CategoryInner category={category} />
+                <CategoryInner size={size} category={category} />
               </Link>
             )}
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </div>
   )
 }
 
-const CategoryInner = ({ category }: {
+const CategoryInner = ({ size, category }: {
+  size: 'sm' | 'lg'
   category: typeof categories[0]
 }) => (
-  <div className="flex max-md:border border-black max-md:p-1 rounded-xl md:flex-col gap-1 md:gap-0 items-center justify-between md:items-stretch w-fit">
-    <div className='md:bg-[#d9d9d9] relative w-12 h-12 md:w-full md:h-20  rounded-t-xl'>
-      <Image className='object-contain' src={category.imageUrl} alt={category.name} fill />
+  <div className="group flex max-md:border duration-200 hover:scale-105 hover:shadow-2xl border-black max-md:p-1 rounded-xl md:flex-col gap-1 md:gap-0 items-center md:justify-center md:items-stretch w-full">
+    <div className={`relative w-12 shrink-0 md:w-full h-12 md:h-20 ${size === 'lg' ? 'md:h-40' : ''} `}>
+      <Image className={`${size === 'lg' ? 'md:bg-white' : 'md:bg-[#d9d9d9]'} object-contain rounded-t-xl`} src={category.imageUrl} alt={category.name} fill />
     </div>
 
-    <div className='md:p-2 md:bg-black/70 rounded-b-xl md:text-white text-center font-lucky'>
-      <span>
+    <div className='md:p-2 group-hover:md:bg-black duration-200 md:bg-black/70 rounded-b-xl md:text-white text-center font-lucky'>
+      <span className="font-lucky">
         {category.name}
       </span>
       <br />

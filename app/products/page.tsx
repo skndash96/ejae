@@ -22,7 +22,7 @@ export default function Products() {
                 {category.name}
               </h2>
 
-              <ul className='mt-2 px-8 flex gap-4  overflow-x-auto'>
+              <ul className='mt-2 px-8 pl-4 flex gap-4  overflow-x-auto'>
                 {products.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
