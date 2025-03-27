@@ -205,11 +205,11 @@ export default function Customization() {
           </div>
         </div>
 
-        <div className='grid grid-cols-2 gap-2 w-fit mx-auto'>
-          <Button className='w-fit block mt-12 mx-auto px-16 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
+        <div className='mt-12 grid grid-cols-2 gap-2 w-fit mx-auto'>
+          <Button className='mx-auto px-4 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
             Buy Now
           </Button>
-          <Button className='w-fit block mt-12 mx-auto px-16 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>
+          <Button className='mx-auto px-4 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>
             Add to Cart
           </Button>
         </div>
