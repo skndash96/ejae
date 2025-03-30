@@ -2,8 +2,9 @@
 import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart } from "@/context/cartContext";
+import { useFavourites } from "@/context/favContext";
 import { useUserContext } from "@/context/userContext";
-import { Menu, X } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +18,7 @@ const links = [
 
 export function Header() {
   const cart = useCart()
+  const { favourites } = useFavourites()
   const { currentUser, userLoading } = useUserContext()
 
   return (
@@ -50,6 +52,16 @@ export function Header() {
           </Link>
         )}
 
+        <Link href="/favourites" className="px-4 relative">
+          <Heart className="text-white fill-white drop-shadow-[2px_2px_black]" size={26} />
+
+          {favourites.length > 0 && (
+            <span className="absolute top-0 right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
+              {favourites.length}
+            </span>
+          )}
+        </Link>
+        
         <Link href="/cart" className="px-4 relative">
           <Image className='drop-shadow-[2px_2px_black]' src="/images/shop.png" width='26' height='26' alt="Cart" />
           {cart.state.items.length > 0 && (

@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link"
-import { categories } from "../data"
+import { categories } from "../categories"
 import Image from "next/image"
 import { motion } from "framer-motion"
 

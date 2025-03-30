@@ -1,16 +1,15 @@
 'use client'
-import { CustomProduct, Product } from '@/app/types';
+import { Product } from '@/app/types';
 import React, { createContext, useReducer, useEffect, ReactNode, useContext } from 'react';
+import { OrderItem } from '@/app/types';
 
-type CartItem = (Product & { quantity: number, selectedColor?: string, selectedSize?: string }) | CustomProduct;
-
-interface CartState {
-  items: CartItem[];
+export interface CartState {
+  items: OrderItem[];
 }
 
 interface CartAction {
   type: 'ADD_ITEM' | 'REMOVE_ITEM' | 'CLEAR_CART';
-  payload?: CartItem;
+  payload?: OrderItem;
 }
 
 const initialState: CartState = {
@@ -28,7 +27,7 @@ const CartContext = createContext<{
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   let updatedState;
 
-  const equalItems = (item1: CartItem, item2: CartItem) => item1.id === item2.id && item1.selectedColor === item2.selectedColor && item1.selectedSize === item2.selectedSize;
+  const equalItems = (item1: OrderItem, item2: OrderItem) => item1.id === item2.id && item1.color === item2.color && item1.size === item2.size;
 
   switch (action.type) {
     case 'ADD_ITEM':
@@ -82,7 +81,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
     dispatch({ type: 'CLEAR_CART' });
-    storedCart.forEach((item: CartItem) => dispatch({ type: 'ADD_ITEM', payload: item }));
+    storedCart.forEach((item: OrderItem) => dispatch({ type: 'ADD_ITEM', payload: item }));
   }, []);
 
   return (

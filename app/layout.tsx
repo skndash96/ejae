@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import Footer from "./components/footer";
 import { CartProvider } from "@/context/cartContext";
 import Help from "./components/help";
+import { FavouritesProvider } from "@/context/favContext";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -29,19 +30,21 @@ export default function RootLayout({
 
       <UserProvider>
         <CartProvider>
-          <body>
-            <ProtectRoute />
+          <FavouritesProvider>
+            <body>
+              <ProtectRoute />
 
-            <div id="wrapper" className="min-h-screen flex flex-col">
-              <FixHeight />
-              <Header />
-              {children}
-              <Footer />
-            </div>
+              <div id="wrapper" className="min-h-screen flex flex-col">
+                <FixHeight />
+                <Header />
+                {children}
+                <Footer />
+              </div>
 
-            <ToastContainer />
-            <Help />
-          </body>
+              <ToastContainer />
+              <Help />
+            </body>
+          </FavouritesProvider>
         </CartProvider>
       </UserProvider>
     </html>

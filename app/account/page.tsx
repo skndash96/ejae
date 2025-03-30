@@ -4,8 +4,8 @@ import React from 'react'
 import LogoutButton from './components/logoutButton'
 import EditProfile from './components/editProfile'
 import { Button } from '@/components/ui/button'
-// import EditAddress from './components/editAddress'
-import { User } from 'lucide-react'
+import { Pin, User } from 'lucide-react'
+import EditAddress from './components/editAddress'
 
 export default function AccountPage() {
   const { currentUser } = useUserContext()
@@ -28,12 +28,12 @@ export default function AccountPage() {
           </Button>
         } />
 
-        {/* <EditAddress trigger={
+        <EditAddress trigger={
           <Button className='h-auto font-lucky flex justify-center items-center gap-4 rounded-xl text-black bg-white hover:bg-gray-200 border border-black shadow-[4px_4px_black]'>
-            <User strokeWidth={3} />
+            <Pin strokeWidth={3} />
             Edit Address
           </Button>
-        } /> */}
+        } />
       </div>
 
       <div className='mt-12'>

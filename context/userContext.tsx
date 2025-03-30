@@ -11,7 +11,6 @@ import {
   signOut,
   sendPasswordResetEmail,
   confirmPasswordReset,
-  updateProfile,
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -20,17 +19,12 @@ import {
 } from 'firebase/auth';
 import { upload_url, default_profile_image } from '../utils/constants';
 import axios from 'axios';
-import { doc, getDoc } from 'firebase/firestore';
-
-type UserData = {
-  name: string;
-  phone: string;
-  birthday: string;
-} | null | undefined;
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { UserData } from '@/app/types';
 
 interface UserContextType {
   currentUser: User | null;
-  currentUserData: UserData;
+  currentUserData: UserData | undefined;
   userLoading: boolean;
   registerUser: (email: string, password: string) => Promise<UserCredential>;
   loginUser: (email: string, password: string) => Promise<UserCredential>;
@@ -38,8 +32,7 @@ interface UserContextType {
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (oobCode: string, newPassword: string) => Promise<void>;
   signInWithGoogle: () => Promise<UserCredential>;
-  updateUserProfileImage: (imageURL: string) => Promise<void>;
-  updateUserProfileName: (name: string) => Promise<void>;
+  updateUserData: (data: Partial<UserData>) => Promise<void>;
   uploadProfileImage: (image: string) => Promise<{ success: any; data?: any, message?: any }>;
   updateUserProfilePassword: (newPassword: string) => Promise<void>;
   reauthenticateUser: (existingPassword: string) => Promise<UserCredential | undefined>;
@@ -51,7 +44,7 @@ export const UserProvider = ({ children }: {
   children: React.ReactNode;
 }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [currentUserData, setCurrentUserData] = useState<UserData>(undefined);
+  const [currentUserData, setCurrentUserData] = useState<UserData | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   const registerUser = (email: string, password: string) => {
@@ -79,26 +72,6 @@ export const UserProvider = ({ children }: {
 
   const resetPassword = (oobCode: string, newPassword: string) => {
     return confirmPasswordReset(auth, oobCode, newPassword);
-  };
-
-  const updateUserProfileImage = async (imageURL: string) => {
-    if (!currentUser) {
-      return;
-    }
-
-    return updateProfile(currentUser, {
-      photoURL: imageURL,
-    });
-  };
-
-  const updateUserProfileName = async (name: string) => {
-    if (!currentUser) {
-      return;
-    }
-
-    return updateProfile(currentUser, {
-      displayName: name,
-    });
   };
 
   const reauthenticateUser = async (existingPassword: string) => {
@@ -132,6 +105,22 @@ export const UserProvider = ({ children }: {
     }
   };
 
+  const updateUserData = async (data: Partial<UserData>) => {
+    if (!currentUser) {
+      return;
+    }
+
+    const userDoc = doc(firestore, 'users', currentUser.uid);
+
+    return setDoc(userDoc, {
+      ...data,
+      shipping: {
+        ...(currentUserData?.shipping || {}),
+        ...data.shipping,
+      }
+    } as UserData, { merge: true });
+  };
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -149,6 +138,7 @@ export const UserProvider = ({ children }: {
 
     getDoc(userDoc)
     .then(doc => {
+      console.log(doc.exists(), doc.data(), "XMAPS");
       if (doc.exists()) {
         setCurrentUserData(doc.data() as UserData || null);
       }
@@ -156,13 +146,6 @@ export const UserProvider = ({ children }: {
     .catch(() => {
       console.log('Error occured');
     })
-
-    if (!currentUser.photoURL) {
-      updateUserProfileImage(default_profile_image)
-        .then(() => setCurrentUser(currentUser))
-        .catch(() => console.log('Error occured'));
-    }
-    
   }, [currentUser]);
 
   return (
@@ -177,8 +160,7 @@ export const UserProvider = ({ children }: {
         signInWithGoogle,
         forgotPassword,
         resetPassword,
-        updateUserProfileImage,
-        updateUserProfileName,
+        updateUserData,
         uploadProfileImage,
         updateUserProfilePassword,
         reauthenticateUser,

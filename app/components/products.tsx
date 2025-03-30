@@ -4,13 +4,17 @@ import Image from 'next/image'
 import React, { useEffect } from 'react'
 import * as motion from 'framer-motion/client'
 import Link from 'next/link'
+import { Product } from '../types'
 
 const items = [
-  "SwapWear", "Denim", "Tshirts", "Hoodies", "Jackets", "Shoes", "Sweatshirts", "Shirts", "Flykicks",
   "SwapWear", "Denim", "Tshirts", "Hoodies", "Jackets", "Shoes", "Sweatshirts", "Shirts", "Flykicks"
 ]
 
-export default function Products() {
+export default function Products({
+  products
+}: {
+  products: Product[]
+}) {
   const [isLargeScreen, setIsLargeScreen] = React.useState(false)
 
   useEffect(() => {
@@ -38,23 +42,26 @@ export default function Products() {
         <div className="absolute w-12 md:w-40 right-0 z-[1] top-0 bottom-0 bg-gradient-to-l from-[#d9d9d9] to-transparent" />
         <div className="absolute w-12 md:w-40 left-0 z-[1] top-0 bottom-0 bg-gradient-to-r from-[#d9d9d9] to-transparent" />
         <ul className="pl-8 pr-20 py-5 flex gap-16 overflow-x-scroll no-scrollbar">
-          {[...Array(8)].map((_, i) => (
-            <motion.li
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="p-2 block bg-white rounded-xl shadow-[5px_5px_black]"
-            >
-              <div className="w-48 relative h-60">
-                <Image fill src="/images/product.png" alt="Customised Shirts" />
-              </div>
-              <div className="mt-2 flex justify-between gap-4">
-                <h2 className="font-lucky">Customised Shirts</h2>
-                <Link2 />
-              </div>
-            </motion.li>
+          {products.map((p, i) => (
+            <Link href={`/products/${p.id}`} key={p.id} className="">
+              <motion.li
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="p-2 block bg-white rounded-xl shadow-[5px_5px_black]"
+              >
+                <div className="w-48 relative h-60 mx-auto">
+                  <Image fill src={p.images[0].url} alt={p.name} className='rounded-xl' />
+                </div>
+                <div className="mt-2 flex justify-between gap-4">
+                  <h2 className="font-lucky">
+                    {p.name}
+                  </h2>
+                  <Link2 />
+                </div>
+              </motion.li>
+            </Link>
           ))}
         </ul>
       </div>
@@ -82,7 +89,7 @@ export default function Products() {
             ease: "linear",
           }}
         >
-          {[...items, ...items].map((item, index) => (
+          {new Array(4).fill(items).flat(1).map((item, index) => (
             <li key={index} className="py-1 bg-neutral-900 text-white text-lg font-semibold">
               <span className='inline font-lucky'>
                 {item}
@@ -104,7 +111,7 @@ export default function Products() {
             ease: "linear",
           }}
         >
-          {[...items, ...items].map((item, index) => (
+          {new Array(4).fill(items).flat(1).map((item, index) => (
             <li key={index} className="py-1 bg-neutral-900 text-white shadow-[5px_-2px_10px_black] text-lg font-semibold">
               <span className='inline font-lucky'>
                 {item}

@@ -3,19 +3,19 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useUserContext } from '@/context/userContext'
-import { firestore } from '@/utils/init-firebase'
-import { doc } from 'firebase/firestore'
 import React, { FormEvent, ReactNode, useState } from 'react'
-import { setDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import { UserData } from '@/app/types'
 
 export default function EditProfile({
-  trigger
+  trigger,
+  defaultOpen = false
 }: {
-  trigger: ReactNode
+  defaultOpen?: boolean
+  trigger?: ReactNode
 }) {
   return (
-    <Dialog>
+    <Dialog defaultOpen={defaultOpen}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
@@ -31,19 +31,18 @@ export default function EditProfile({
 }
 
 const InnerComponent = () => {
-  const { currentUser, currentUserData } = useUserContext()
+  const { currentUser, currentUserData, updateUserData } = useUserContext()
   const [loading, setLoading] = useState(false)
   const closeRef = React.useRef<HTMLButtonElement>(null)
 
+  const [name, setName] = useState(currentUserData?.name || '');
+  const [phone, setPhone] = useState(currentUserData?.shipping.phoneNumber || '');
+  const [birthday, setBirthday] = useState(currentUserData?.birthday || '');
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    
     if (!currentUser) return
-
-    const formData = new FormData(e.currentTarget)
-
-    const name = formData.get('name') as string
-    const phone = formData.get('phone') as string
-    const birthday = formData.get('birthday') as string
 
     let ph = phone.replaceAll(' ', '')
     if (!ph.startsWith('+91')) ph = '+91' + ph
@@ -58,11 +57,16 @@ const InnerComponent = () => {
       return toast.error('Birthday is required')
     }
 
-    const docRef = doc(firestore, 'users', currentUser.uid)
-
     try {
       setLoading(true)
-      await setDoc(docRef, { uid: currentUser.uid, name, phone: ph, birthday }, { merge: true })
+      await updateUserData({
+        name,
+        birthday,
+        shipping: {
+          ...(currentUserData?.shipping || {}),
+          phoneNumber: ph
+        }
+      } as UserData)
       toast.success('Profile updated successfully')
       closeRef.current?.click()
     } catch (e) {
@@ -77,15 +81,15 @@ const InnerComponent = () => {
     <form onSubmit={handleSubmit} className='p-4 pt-0 flex flex-col gap-2'>
       <div>
         <label htmlFor='name' className='text-sm font-bold'>Name</label>
-        <Input defaultValue={currentUserData?.name || ''} name='name' type='text' placeholder='Your name' />
+        <Input value={name} onChange={(e) => setName(e.target.value)} name='name' type='text' placeholder='Your name' />
       </div>
       <div>
         <label htmlFor='phone' className='text-sm font-bold'>Phone Number</label>
-        <Input defaultValue={currentUserData?.phone} name='phone' type='text' placeholder='+91 98xxx 12xxx' />
+        <Input value={phone} onChange={(e) => setPhone(e.target.value)} name='phone' type='text' placeholder='+91 98xxx 12xxx' />
       </div>
       <div>
         <label htmlFor='birthday' className='text-sm font-bold'>Birthday</label>
-        <Input defaultValue={currentUserData?.birthday} name='birthday' type='date' placeholder='Birthday' />
+        <Input value={birthday} onChange={(e) => setBirthday(e.target.value)} name='birthday' type='date' placeholder='Birthday' />
       </div>
       <div className='self-end flex gap-2 justify-end'>
         <DialogClose asChild>

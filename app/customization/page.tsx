@@ -8,6 +8,7 @@ import { useCart } from '@/context/cartContext'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { OrderItem, Product } from '../types'
 
 export default function Customization() {
   const cart = useCart()
@@ -40,17 +41,18 @@ export default function Customization() {
       type: 'ADD_ITEM',
       payload: {
         id: Date.now().toString(),
-        selectedColor: formData.get('color') as string,
-        selectedSize: formData.get('fit') as string,
-        colors: [],
-        sizes: [],
         description: formData.get('requirements') as string,
-        images: files ? Array.from(files).map(file => URL.createObjectURL(file)) : [],
+        images: files ? Array.from(files).map(file => ({
+          url: URL.createObjectURL(file),
+          public_id: file.name,
+        })) as Product['images']: [],
+        color: formData.get('color') as string,
+        size: formData.get('fit') as string,
         name: 'Customized ' + selectedCategory,
         price: 0,
         category: selectedCategory!,
         quantity: 1
-      }
+      } as OrderItem
     })
 
     toast.success('Added to cart!')
