@@ -16,6 +16,7 @@ export default function Customization() {
   const fileRef = React.useRef<HTMLInputElement>(null)
   const [files, setFiles] = React.useState<FileList | null>(null)
   const router = useRouter()
+  const customColorRef = React.useRef<HTMLInputElement>(null)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget)
@@ -37,16 +38,23 @@ export default function Customization() {
       return;
     }
 
+    let color = formData.get('color') as string
+    if (color === 'custom') {
+      color = customColorRef.current?.value || ''
+    }
+
     cart.dispatch({
       type: 'ADD_ITEM',
       payload: {
-        id: Date.now().toString(),
+        id: (Date.now().toString(16) + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () =>
+          Math.floor(Math.random() * 16).toString(16)
+        )).slice(0, 24),
         description: formData.get('requirements') as string,
         images: files ? Array.from(files).map(file => ({
           url: URL.createObjectURL(file),
           public_id: file.name,
         })) as Product['images']: [],
-        color: formData.get('color') as string,
+        color,
         size: formData.get('fit') as string,
         name: 'Customized ' + selectedCategory,
         price: 0,
@@ -141,6 +149,7 @@ export default function Customization() {
                   <span>Custom</span>
 
                   <input
+                    ref={customColorRef}
                     type="color"
                     name="customColor"
                     defaultValue="#ffff00"

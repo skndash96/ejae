@@ -1,10 +1,11 @@
 'use client'
 import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart } from "@/context/cartContext";
 import { useFavourites } from "@/context/favContext";
 import { useUserContext } from "@/context/userContext";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, User, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -39,37 +40,48 @@ export function Header() {
         ))}
       </ul>
 
-      <div className="px-4 flex items-center">
-        {userLoading ? (
-          <Skeleton className="w-24 h-full" />
-        ) : currentUser ? (
-          <Link href="/account" className="px-4 py-2 text-sm  bg-white rounded-tl-xl rounded-br-xl border border-black font-lucky">
-            Account
-          </Link>
-        ) : (
-          <Link href="/sign-up" className="px-4 py-2 text-sm  bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
-            Sign Up
-          </Link>
-        )}
-
-        <Link href="/favourites" className="px-4 relative">
+      <div className="px-4 flex items-center gap-6">
+        <Link href="/favourites" className="relative">
           <Heart className="text-white fill-white drop-shadow-[2px_2px_black]" size={26} />
-
           {favourites.length > 0 && (
-            <span className="absolute top-0 right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
+            <span className="absolute -top-1 -right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
               {favourites.length}
             </span>
           )}
         </Link>
-        
-        <Link href="/cart" className="px-4 relative">
+
+        <Link href="/cart" className="relative">
           <Image className='drop-shadow-[2px_2px_black]' src="/images/shop.png" width='26' height='26' alt="Cart" />
           {cart.state.items.length > 0 && (
-            <span className="absolute top-0 right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
+            <span className="absolute -top-1 -right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
               {cart.state.items.length}
             </span>
           )}
         </Link>
+
+        {userLoading ? (
+          <Skeleton className="w-24 h-full" />
+        ) : currentUser ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="-mb-1 block">
+                <User size={26} className="bg-white rounded-xl drop-shadow-[2px_2px_black]" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Link href="/my-orders">My Orders</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/account">Account</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link href="/sign-up" className="px-4 py-2 text-sm bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
+            Sign Up
+          </Link>
+        )}
 
         <Drawer direction="right">
           <DrawerTrigger className="lg:hidden">
@@ -78,10 +90,7 @@ export function Header() {
           <DrawerContent className="bg-white">
             <DrawerHeader>
               <div className="flex justify-between items-center">
-                <DrawerTitle className="font-lucky">
-                  Menu
-                </DrawerTitle>
-
+                <DrawerTitle className="font-lucky">Menu</DrawerTitle>
                 <DrawerClose className="cursor-pointer">
                   <X />
                 </DrawerClose>
@@ -99,28 +108,28 @@ export function Header() {
                 </li>
               ))}
 
+              <li>
+                <DrawerClose asChild>
+                  <Link href="/my-orders" className="font-bangers">My Orders</Link>
+                </DrawerClose>
+              </li>
+
               {currentUser ? (
                 <li>
                   <DrawerClose asChild>
-                    <Link href="/account" className="font-bangers">
-                      Account
-                    </Link>
+                    <Link href="/account" className="font-bangers">Account</Link>
                   </DrawerClose>
                 </li>
               ) : (
                 <div className="grid grid-cols-2 gap-2 place-items-center">
                   <li className="w-full">
                     <DrawerClose asChild>
-                      <Link href="/sign-in" className="block font-bangers rounded-tl-xl rounded-br-xl border border-black p-2 text-center">
-                        Log in
-                      </Link>
+                      <Link href="/sign-in" className="block font-bangers rounded-tl-xl rounded-br-xl border border-black p-2 text-center">Log in</Link>
                     </DrawerClose>
                   </li>
                   <li className="w-full">
                     <DrawerClose asChild>
-                      <Link href="/sign-up" className="block font-bangers rounded-tl-xl rounded-br-xl bg-yellow-300 border border-black p-2 text-center">
-                        Sign Up
-                      </Link>
+                      <Link href="/sign-up" className="block font-bangers rounded-tl-xl rounded-br-xl bg-yellow-300 border border-black p-2 text-center">Sign Up</Link>
                     </DrawerClose>
                   </li>
                 </div>

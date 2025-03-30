@@ -16,7 +16,7 @@ export default function Cart() {
 
   if (page === 1) {
     return (
-      <ShippingPage onBack={() => setPage(0)} onNext={() => setPage(2)} />
+      <ShippingPage onBack={() => setPage(0)} />
     )
   }
   

@@ -63,7 +63,7 @@ export interface OrderItem {
 }
 
 export interface Order {
-  id: string;
+  _id: string;
   shippingInfo: Address;
   orderItems: OrderItem[];
   user: {
@@ -83,4 +83,6 @@ export interface Order {
   deliveredAt: string;
 }
 
-export type InsertOrder = Omit<Order, 'id' | 'createdAt' | 'deliveredAt' | 'orderStatus'>
+export type InsertOrder = Omit<Order, '_id' | 'createdAt' | 'deliveredAt' | 'orderStatus'> & {
+  shippingInfo: Address & { pinCode: number };
+}

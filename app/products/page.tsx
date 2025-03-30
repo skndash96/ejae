@@ -25,7 +25,7 @@ export default async function Products() {
     }, new Map<string, Product[]>())
 
     return (
-      <main className='py-8 grow bg-white'>
+      <main className='px-4 py-8 grow bg-white'>
         <h1 className='mb-8 text-5xl text-center font-bangers'>
           Explore
         </h1>
@@ -35,11 +35,11 @@ export default async function Products() {
         <ul className='mt-8 flex flex-col gap-8'>
           {Array.from(categoryMap.entries()).map(([category, products]) => (
             <li key={category}>
-              <h2 className='ml-8 font-lucky text-2xl'>
+              <h2 className='font-lucky text-2xl'>
                 {category}
               </h2>
 
-              <ul className='mt-2 px-8 pl-4 flex gap-4 overflow-x-auto'>
+              <ul className='mt-2 pr-8 flex gap-4 overflow-x-auto'>
                 {products.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -53,7 +53,7 @@ export default async function Products() {
     console.error('Error fetching products:', error)
 
     return (
-      <main className='py-8 grow bg-white'>
+      <main className='px-4 py-8 grow bg-white'>
         <h1 className='mb-8 text-5xl text-center font-bangers'>
           Explore
         </h1>

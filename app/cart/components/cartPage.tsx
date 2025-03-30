@@ -18,7 +18,7 @@ export default function CartPage({
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <div className='grow px-4 py-8 flex flex-col justify-center lg:flex-row gap-8'>
+    <div className='grow px-4 py-8 flex flex-col justify-center lg:flex-row gap-8 animate-in slide-in-from-left'>
       <div className='overflow-x-auto'>
         <div className='max-w-4xl mx-auto min-w-fit'>
           <ul className='pr-4 grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr] gap-4 rounded-2xl bg-black text-white font-lucky *:text-center'>
@@ -43,7 +43,7 @@ export default function CartPage({
                     </div>
                   </div>
 
-                  <div> {item.price > 0 ? '₹' + item.price.toString() : '*'}</div>
+                  <div> {item.price > 0 ? '₹' + (item.price/100).toFixed(2) : '*'}</div>
 
                   <div className='bg-neutral-100 border border-neutral-300 flex items-center rounded-xl gap-2'>
                     <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => dispatch({ type: item.quantity === 1 ? 'REMOVE_ITEM' : 'ADD_ITEM', payload: { ...item, quantity: item.quantity - 1 } })}>-</Button>
@@ -51,7 +51,7 @@ export default function CartPage({
                     <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: item.quantity + 1 } })}>+</Button>
                   </div>
 
-                  <div> {item.price > 0 ? `₹${item.price * item.quantity}` : '*'}</div>
+                  <div> {item.price > 0 ? `₹${(item.price * item.quantity / 100).toFixed(2)}` : '*'}</div>
 
                   <div>
                     <button onClick={() => dispatch({
@@ -79,11 +79,11 @@ export default function CartPage({
 
         <div className='mt-8 grid grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700'>
           <span>Sub Total</span>
-          <span>₹{subtotal}</span>
+          <span>₹{(subtotal/100).toFixed(2)}</span>
           <span>Shipping</span>
           <span>₹{items.length > 0 ? 'Free' : '0'}</span>
           <span className='mt-2'>Grand Total</span>
-          <span className='mt-2'>₹{subtotal}</span>
+          <span className='mt-2'>₹{(subtotal/100).toFixed(2)}</span>
 
           {items.filter(item => item.price === 0).length > 0 && (
             <p className='mt-2 col-span-2 text-black'>

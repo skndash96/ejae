@@ -29,7 +29,7 @@ export default function Categories({
   onSelect?: (name: string) => void
 }) {
   return (
-    <div className="px-4 py-2 rounded-xl">
+    <div className="py-2 rounded-xl">
       <motion.ul 
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-8 ${size === 'lg' ? 'max-w-7xl' : 'max-w-6xl'} items-stretch place-items-stretch justify-center gap-4 mx-auto`} 
         initial={animated ? 'hidden' : undefined}

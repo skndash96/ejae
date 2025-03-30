@@ -28,7 +28,7 @@ export default async function CategoryPage({
     })
 
     return (
-      <div className="grow p-8 bg-white">
+      <div className="grow py-8 px-4 bg-white">
         <Category id={catId} products={categoryMap.get(catId) || []} />
       </div>
     )

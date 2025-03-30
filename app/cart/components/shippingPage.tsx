@@ -3,16 +3,18 @@ import { Address, InsertOrder, UserData } from '@/app/types'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/context/cartContext'
 import { useUserContext } from '@/context/userContext'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import React, { FormEventHandler } from 'react'
+import { toast } from 'react-toastify'
 
 export default function ShippingPage({
-  onNext,
   onBack
 }: {
-  onNext: () => void
   onBack: () => void
 }) {
   const cart = useCart()
+  const router = useRouter()
   const { currentUser, currentUserData } = useUserContext()
 
   const [shipping, setShipping] = React.useState<Address & {name: string}>({
@@ -35,36 +37,58 @@ export default function ShippingPage({
   
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    return
+
+    // TODO: generate order ID
+    const orderId = 'dummy-123' //make req to backend to generate order ID
+    
+    const total = cart.state.items.reduce((acc, item) => {
+      const price = item.price || 0
+      const quantity = item.quantity || 1
+      return acc + (price * quantity)
+    }, 0)
 
     const orderData : InsertOrder = {
       user: {
         name: shipping.name,
         email: currentUser?.email || '',
       },
-      shippingInfo: shipping,
-      orderItems: cart.state.items,
+      shippingInfo: {
+        ...shipping,
+        pinCode: Number(shipping.pincode),
+      },
+      orderItems: cart.state.items.map(item => ({...item, product: item.id})),
       paymentInfo: {
-        id: 'id',
-        status: 'status'
+        id: orderId,
+        status: 'pending',
       },
       paidAt: null,
-      itemsPrice: 0,
+      itemsPrice: total,
       shippingPrice: 0,
-      totalPrice: 0
+      totalPrice: total
     }
 
-    console.log(orderData)
+    axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/orders/new', orderData, {})
+    .then(() => {
+      toast.success('Order placed successfully')
+      cart.dispatch({
+        type: 'CLEAR_CART'
+      })
 
-    // generate order ID
-    // payment gateway
-    // if success, post order
+      router.push('/my-orders')
+    })
+    .catch(err => {
+      console.error(err)
+      toast.error('Failed to place order')
+    })
+    
+    // open payment gateway
+    alert('Payment gateway should open now but this is a dummy implementation.')
 
-    onNext()
+    // backend receives webhook from payment gateway and updates order status
   }
 
   return (
-    <div className='grow px-4 py-8 flex flex-col justify-center items-center lg:flex-row gap-8'>
+    <div className='grow px-4 py-8 flex flex-col justify-center items-center lg:flex-row gap-8 animate-in slide-in-from-right'>
       <form onSubmit={handleSubmit} className='w-full max-w-lg p-4 bg-white rounded-2xl shadow-md'>
         <h2 className='text-lg font-bold mb-4'>Shipping Details</h2>
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 py-2'>
