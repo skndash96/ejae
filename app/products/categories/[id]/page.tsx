@@ -11,25 +11,15 @@ export default async function CategoryPage({
   const catId = decodeURIComponent(id)
 
   try {
-    const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/products')
+    const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/products?category=' + id)
     
     const json = await res.json()
 
     const products = json.data as Product[]
 
-    const categoryMap = new Map<string, Product[]>()
-
-    products.forEach(product => {
-      const pCatId = product.category.toLowerCase()
-      if (!categoryMap.has(pCatId)) {
-        categoryMap.set(pCatId, [])
-      }
-      categoryMap.get(pCatId)?.push(product)
-    })
-
     return (
       <div className="grow py-8 px-4 bg-white">
-        <Category id={catId} products={categoryMap.get(catId) || []} />
+        <Category id={catId} products={products || []} />
       </div>
     )
   } catch (e) {

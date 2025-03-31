@@ -138,7 +138,6 @@ export const UserProvider = ({ children }: {
 
     getDoc(userDoc)
     .then(doc => {
-      console.log(doc.exists(), doc.data(), "XMAPS");
       if (doc.exists()) {
         setCurrentUserData(doc.data() as UserData || null);
       }

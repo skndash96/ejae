@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCart } from "@/context/cartContext";
 import { useFavourites } from "@/context/favContext";
 import { useUserContext } from "@/context/userContext";
-import { Heart, Menu, User, X } from "lucide-react";
+import { Heart, Menu, ShoppingBasket, User, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,7 +42,7 @@ export function Header() {
 
       <div className="px-4 flex items-center gap-6">
         <Link href="/favourites" className="relative">
-          <Heart className="text-white fill-white drop-shadow-[2px_2px_black]" size={26} />
+          <Heart className="text-white fill-white drop-shadow-[2px_2px_black]" size={20} />
           {favourites.length > 0 && (
             <span className="absolute -top-1 -right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
               {favourites.length}
@@ -51,7 +51,7 @@ export function Header() {
         </Link>
 
         <Link href="/cart" className="relative">
-          <Image className='drop-shadow-[2px_2px_black]' src="/images/shop.png" width='26' height='26' alt="Cart" />
+          <ShoppingBasket className="text-white fill-white drop-shadow-[2px_2px_black]" size={24} />
           {cart.state.items.length > 0 && (
             <span className="absolute -top-1 -right-2 bg-yellow-300 text-black text-xs font-bold rounded-full px-1">
               {cart.state.items.length}
@@ -64,8 +64,8 @@ export function Header() {
         ) : currentUser ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="-mb-1 block">
-                <User size={26} className="bg-white rounded-xl drop-shadow-[2px_2px_black]" />
+              <button className="block">
+                <User size={20} className="bg-white rounded-xl drop-shadow-[2px_2px_black]" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -78,7 +78,7 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Link href="/sign-up" className="px-4 py-2 text-sm bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
+          <Link href="/sign-up" className="px-2 py-2 text-sm bg-yellow-300 rounded-tl-xl rounded-br-xl border border-black font-lucky">
             Sign Up
           </Link>
         )}
@@ -108,11 +108,13 @@ export function Header() {
                 </li>
               ))}
 
-              <li>
-                <DrawerClose asChild>
-                  <Link href="/my-orders" className="font-bangers">My Orders</Link>
-                </DrawerClose>
-              </li>
+              {currentUser && (
+                <li>
+                  <DrawerClose asChild>
+                    <Link href="/my-orders" className="font-bangers">My Orders</Link>
+                  </DrawerClose>
+                </li>
+              )}
 
               {currentUser ? (
                 <li>

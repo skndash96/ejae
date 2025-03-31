@@ -9,6 +9,7 @@ import Footer from "./components/footer";
 import { CartProvider } from "@/context/cartContext";
 import Help from "./components/help";
 import { FavouritesProvider } from "@/context/favContext";
+import { NProgressWrapper } from "./components/nProgress";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -32,17 +33,19 @@ export default function RootLayout({
         <CartProvider>
           <FavouritesProvider>
             <body>
-              <ProtectRoute />
+              <NProgressWrapper>
+                <ProtectRoute />
 
-              <div id="wrapper" className="min-h-screen flex flex-col">
-                <FixHeight />
-                <Header />
-                {children}
-                <Footer />
-              </div>
+                <div id="wrapper" className="min-h-screen flex flex-col">
+                  <FixHeight />
+                  <Header />
+                  {children}
+                  <Footer />
+                </div>
 
-              <ToastContainer />
-              <Help />
+                <ToastContainer />
+                <Help />
+              </NProgressWrapper>
             </body>
           </FavouritesProvider>
         </CartProvider>

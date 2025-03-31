@@ -20,6 +20,10 @@ export default function CartPage({
   return (
     <div className='grow px-4 py-8 flex flex-col justify-center lg:flex-row gap-8 animate-in slide-in-from-left'>
       <div className='overflow-x-auto'>
+        <h1 className='text-2xl font-lucky text-center mb-4'>
+          Cart Items
+        </h1>
+        
         <div className='max-w-4xl mx-auto min-w-fit'>
           <ul className='pr-4 grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr] gap-4 rounded-2xl bg-black text-white font-lucky *:text-center'>
             <li>Cart Item</li>
