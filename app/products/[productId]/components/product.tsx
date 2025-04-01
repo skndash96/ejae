@@ -9,7 +9,7 @@ import { Product } from '@/app/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useRouter } from 'next/navigation';
 import { useFavourites } from '@/context/favContext';
-import Reviews from '../[productId]/components/reviews';
+import Reviews from './reviews';
 
 export default function ProductComponent({ product }: { product: Product }) {
   const router = useRouter()
@@ -111,7 +111,7 @@ export default function ProductComponent({ product }: { product: Product }) {
 
           {inCart.length > 0 && (
             <div className='mt-12'>
-              <h3 className='font-lucky font-bold text-xl mb-2'>In Cart</h3>
+              <h3 className='font-bangers font-bold text-xl mb-2'>In Cart</h3>
               {inCart.map((item, index) => (
                 <div key={index} className='flex items-center gap-4 mb-4 p-4 border rounded-lg shadow-sm'>
                   <span className='font-medium'>Variant: <span style={{ backgroundColor: item.color }} className='inline-block w-4 h-4 border border-neutral-400 -mb-[2px] rounded-full'></span> / {item.size}</span>

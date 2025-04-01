@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import ProductComponent from "../components/product"
+import ProductComponent from "./components/product"
 import { Product } from "@/app/types"
 
 export default async function ProductPage({
