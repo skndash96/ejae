@@ -16,11 +16,12 @@ export interface Address {
 }
 
 export interface Review {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   rating: number;
   comment: string;
+  createdAt: Date;
 }
 
 export interface Product {
@@ -39,7 +40,6 @@ export interface Product {
   shipping: boolean;
   featured: boolean;
   numberOfReviews: number;
-  reviews: Review[],
   rating: number;
   stock: number;
   admin: string;
