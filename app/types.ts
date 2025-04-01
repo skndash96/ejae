@@ -59,7 +59,7 @@ export interface OrderItem {
   quantity: number;
   color: string;
   size: string;
-  product: string; // product id
+  product?: string; // product id
 }
 
 export interface Order {

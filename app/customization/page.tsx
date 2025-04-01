@@ -2,13 +2,14 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Check, ChevronLeft } from 'lucide-react'
-import React, { FormEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Categories from '../products/components/categories'
 import { useCart } from '@/context/cartContext'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { OrderItem, Product } from '../types'
+import { OrderItem } from '../types'
+import axios from 'axios'
 
 export default function Customization() {
   const cart = useCart()
@@ -17,8 +18,9 @@ export default function Customization() {
   const [files, setFiles] = React.useState<FileList | null>(null)
   const router = useRouter()
   const customColorRef = React.useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget)
 
     e.preventDefault()
@@ -43,6 +45,35 @@ export default function Customization() {
       color = customColorRef.current?.value || ''
     }
 
+    let images
+
+    try {
+      setLoading(true)
+
+      images = files ? (await Promise.all(Array.from(files).map(async file => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        const base64Url = await new Promise<string>((resolve, reject) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(reader.error);
+        });
+
+        const uploadRes = await axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/upload', {
+          image: base64Url
+        })
+
+        const data = uploadRes.data.data
+
+        return data
+      }))) : []
+    } catch (e) {
+      setLoading(false)
+      console.error(e)
+      toast.error('Failed to upload images')
+      return
+    }
+
     cart.dispatch({
       type: 'ADD_ITEM',
       payload: {
@@ -50,20 +81,18 @@ export default function Customization() {
           Math.floor(Math.random() * 16).toString(16)
         )).slice(0, 24),
         description: formData.get('requirements') as string,
-        images: files ? Array.from(files).map(file => ({
-          url: URL.createObjectURL(file),
-          public_id: file.name,
-        })) as Product['images']: [],
+        images,
         color,
         size: formData.get('fit') as string,
         name: 'Customized ' + selectedCategory,
         price: 0,
         category: selectedCategory!,
         quantity: 1
-      } as OrderItem
-    })
+      } as OrderItem,
+    });
 
     toast.success('Added to cart!')
+    setLoading(false)
 
     router.push('/cart')
   }
@@ -199,10 +228,10 @@ export default function Customization() {
 
               <label onClick={() => fileRef.current?.click()} htmlFor='file' className='mt-2 py-4 flex items-center justify-center gap-4 bg-white p-2 rounded-xl border border-gray-400 cursor-pointer text-gray-500'>
                 <span className=''>
-                  {files && files.length > 0 ? `${files?.length} File${files.length > 1 ? 's' : ''} Selected` : "Upload Files"}
+                  {files && files.length > 0 ? `${files?.length} Image${files.length > 1 ? 's' : ''} Selected` : "Upload Images"}
                 </span>
 
-                <input ref={fileRef} onChange={e => setFiles(e.currentTarget.files)} name='file' multiple className='p-0 bg-white max-w-0 h-0 overflow-hidden' type='file' />
+                <input accept='image/*' ref={fileRef} onChange={e => setFiles(e.currentTarget.files)} name='file' multiple className='p-0 bg-white max-w-0 h-0 overflow-hidden' type='file' />
               </label>
             </div>
 
@@ -217,11 +246,11 @@ export default function Customization() {
         </div>
 
         <div className='mt-12 grid grid-cols-2 gap-2 w-fit mx-auto'>
-          <Button className='mx-auto px-4 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
-            Buy Now
+          <Button onClick={() => router.push('/cart')} disabled={loading} className='mx-auto px-4 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
+            {loading ? 'Uploading' : 'Buy Now'}
           </Button>
-          <Button className='mx-auto px-4 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>
-            Add to Cart
+          <Button disabled={loading} className='mx-auto px-4 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>
+            {loading ? 'Uploading' : 'Add to Cart'}
           </Button>
         </div>
       </form>

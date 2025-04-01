@@ -116,9 +116,14 @@ export default function ProductComponent({ product }: { product: Product }) {
                 <div key={index} className='flex items-center gap-4 mb-4 p-4 border rounded-lg shadow-sm'>
                   <span className='font-medium'>Variant: <span style={{ backgroundColor: item.color }} className='inline-block w-4 h-4 border border-neutral-400 -mb-[2px] rounded-full'></span> / {item.size}</span>
                   <div className='bg-neutral-100 border border-neutral-300 flex items-center rounded-xl gap-2'>
-                    <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => cart.dispatch({ type: item.quantity === 1 ? 'REMOVE_ITEM' : 'ADD_ITEM', payload: { ...item, quantity: item.quantity - 1 } })}>-</Button>
+                    <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => {
+                      router.push('/cart')
+                      cart.dispatch({ type: item.quantity === 1 ? 'REMOVE_ITEM' : 'ADD_ITEM', payload: { ...item, quantity: item.quantity - 1 } })}
+                      }>-</Button>
                     <span>{item.quantity}</span>
-                    <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => cart.dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: item.quantity + 1 } })} disabled={item.quantity >= product.stock}>+</Button>
+                    <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => {
+                      cart.dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: item.quantity + 1 } })
+                    }} disabled={item.quantity >= product.stock}>+</Button>
                   </div>
                   <Button onClick={() => cart.dispatch({ type: 'REMOVE_ITEM', payload: item })} variant='destructive'>
                     <Trash2 size={16} />
