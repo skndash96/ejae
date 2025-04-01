@@ -1,10 +1,9 @@
 'use client'
-import { Address, InsertOrder, UserData } from '@/app/types'
+import { Address, Order, UserData } from '@/app/types'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/context/cartContext'
 import { useUserContext } from '@/context/userContext'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import Script from 'next/script'
 import React, { FormEventHandler, useEffect } from 'react'
 import { toast } from 'react-toastify'
@@ -16,15 +15,17 @@ declare global {
 }
 
 export default function ShippingPage({
-  onBack
+  onBack,
+  onNext
 }: {
+  onNext: () => void
   onBack: () => void
 }) {
   const cart = useCart()
-  const router = useRouter()
   const { currentUser, currentUserData } = useUserContext()
 
   const [rzLoading, setRzLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(false)
   const [shipping, setShipping] = React.useState<Address & { name: string }>({
     name: currentUserData?.name || '',
     address: '',
@@ -36,9 +37,12 @@ export default function ShippingPage({
   })
 
   useEffect(() => {
+    if (window.Razorpay) setRzLoading(false)
+
     if (currentUserData) {
       setShipping((prev) => ({
         ...prev,
+        name: currentUserData.name || currentUser?.displayName || '',
         address: currentUserData.shipping.address || '',
         city: currentUserData.shipping.city || '',
         state: currentUserData.shipping.state || '',
@@ -56,99 +60,104 @@ export default function ShippingPage({
     }))
   }
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     if (rzLoading) return
 
-    // TODO: generate order ID
-    const orderId = 'dummy-123' //make req to backend to generate order ID
-
-    const total = cart.state.items.reduce((acc, item) => {
+    // totalPrice is in PAISA INR
+    const itemsPrice = cart.state.items.reduce((acc, item) => {
       const price = item.price || 0
       const quantity = item.quantity || 1
       return acc + (price * quantity)
     }, 0)
 
-    const orderData: InsertOrder = {
-      user: {
-        name: shipping.name,
-        email: currentUser?.email || '',
-      },
-      shippingInfo: {
-        ...shipping,
-        pinCode: Number(shipping.pincode),
-      },
-      orderItems: cart.state.items.map(item => ({ ...item, product: item.id })),
-      paymentInfo: {
-        id: orderId,
-        status: 'pending',
-      },
-      paidAt: null,
-      itemsPrice: total,
-      shippingPrice: 0,
-      totalPrice: total
-    }
+    const shippingPrice = 0
+    const totalPrice = itemsPrice + shippingPrice
 
-    axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/orders/new', orderData, {})
-      .then(() => {
-        toast.success('Order placed successfully')
+    try {
+      setLoading(true)
+      const intentRes = await axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/payment/create-payment-intent', {
+        cart: cart.state.items,
+        totalPrice
+      })
+
+      const {
+        orderId: rzOrderId,
+        amount,
+        currency
+      } = intentRes.data.data
+
+      try {
+        const orderRes = await axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/orders/new', {
+          user: {
+            name: shipping.name,
+            email: currentUser?.email || '',
+          },
+          shippingInfo: {
+            ...shipping,
+            pinCode: Number(shipping.pincode),
+          },
+          orderItems: cart.state.items.map(item => ({ ...item, product: item.id })),
+          paymentInfo: {
+            id: rzOrderId,
+            status: 'pending',
+          },
+          paidAt: null,
+          itemsPrice,
+          shippingPrice,
+          totalPrice
+        })
+
+        const order = orderRes.data.data as Order
+
         cart.dispatch({
           type: 'CLEAR_CART'
         })
 
-        router.push('/my-orders')
-      })
-      .catch(err => {
-        console.error(err)
-        toast.error('Failed to place order')
-      })
+        const razorPayOptions = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount, //In PAISA
+          currency,
+          order_id: rzOrderId,
+          handler: async function () {
+            const res = await axios.post(process.env.NEXT_PUBLIC_BACKEND_ORIGIN + '/api/payment/verify', {
+              orderId: order._id
+            });
 
-    // Open payment gateway
-    const options = {
-      key: process.env.key_id,
-      amount: total,
-      currency: 'INR',
-      order_id: orderId,
-      handler: async function (response: any) {
-        const data = {
-          orderCreationId: orderId,
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
-          razorpaySignature: response.razorpay_signature,
+            if (res.data?.data?.status === 'paid') {
+              onNext()
+            }
+
+            setLoading(false)
+          },
+          prefill: {
+            name: shipping.name,
+            email: currentUser?.email || '',
+            contact: shipping.phoneNumber,
+          },
+          theme: {
+            color: '#b7a137',
+          },
         };
 
-        const result = await fetch('/api/verify', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'Content-Type': 'application/json' },
+        const paymentObject = new window.Razorpay(razorPayOptions);
+
+        paymentObject.on('payment.failed', function (response: any) {
+          alert(response.error.description);
         });
 
-        const res = await result.json();
-
-        if (res.isOk) alert("payment succeed");
-        else {
-          alert(res.message);
-        }
-      },
-      prefill: {
-        name: shipping.name,
-        email: currentUser?.email || '',
-        contact: shipping.phoneNumber,
-      },
-      theme: {
-        color: '#b7a137',
-      },
-    };
-
-    const paymentObject = new window.Razorpay(options);
-
-    paymentObject.on('payment.failed', function (response: any) {
-      alert(response.error.description);
-    });
-
-    paymentObject.open();
-    // backend receives webhook from payment gateway and updates order status
+        paymentObject.open();
+      } catch (e) {
+        console.error(e)
+        toast.error("Failed to place Order")
+        setLoading(false)
+      }
+    } catch (e) {
+      setLoading(false)
+      console.error(e)
+      toast.error('Failed to Proceed with Payment')
+    }
   }
 
   return (
@@ -237,8 +246,8 @@ export default function ShippingPage({
         </div>
         <div className='mt-6 flex justify-end gap-4 py-2'>
           <Button onClick={onBack} variant='outline' className='px-4 py-2'>Back</Button>
-          <Button type='submit' className='px-4 py-2 text-black font-semibold bg-amber-300 hover:bg-amber-400 drop-shadow-[3px_3px_black]'>
-            Proceed to Payment
+          <Button disabled={loading || rzLoading} type='submit' className='px-4 py-2 text-black font-semibold bg-amber-300 hover:bg-amber-400 drop-shadow-[3px_3px_black]'>
+            {rzLoading ? "Loading" : loading ? "..." : "Proceed with Payment"}
           </Button>
         </div>
       </form>

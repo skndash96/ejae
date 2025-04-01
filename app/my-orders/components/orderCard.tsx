@@ -106,7 +106,7 @@ export default function OrderCard({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Status</span>
-                  <Badge variant={order.paymentInfo.status === "Completed" ? "default" : "outline"}>
+                  <Badge variant={order.paymentInfo.status === "paid" ? "default" : "outline"} className={`${order.paymentInfo.status.toLowerCase() === 'paid' ? 'bg-green-500' : 'bg-yellow-300'}`}>
                     {order.paymentInfo.status}
                   </Badge>
                 </div>

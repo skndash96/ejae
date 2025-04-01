@@ -46,9 +46,13 @@ export default function MyOrders() {
       </h1>
 
       {loading ? (
-        <Skeleton className='h-60 w-full mx-auto' />
+        <div className='max-w-7xl mx-auto'>
+          <Skeleton className='h-40 w-full mx-auto' />
+          <Skeleton className='h-40 mt-4 w-full mx-auto' />
+          <Skeleton className='h-40 mt-4 w-full mx-auto' />
+        </div>
       ) : (
-        <ul className='mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-full mx-auto max-w-6xl'>
+        <ul className='mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-full mx-auto max-w-7xl'>
           {orders.length > 0 ? (
             orders.map(order => (
               <OrderCard order={order} key={order._id} />
