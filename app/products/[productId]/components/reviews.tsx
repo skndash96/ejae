@@ -151,7 +151,7 @@ export default function Reviews({
   };
 
   return (
-    <div className="mt-10 space-y-4 md:space-y-8">
+    <div className="mt-10 space-y-4 md:space-y-4">
       <div className="flex items-center gap-x-4 flex-wrap">
         <h2 className="text-2xl font-bold font-bangers">Customer Reviews</h2>
 
@@ -163,7 +163,7 @@ export default function Reviews({
         </div>
       </div>
 
-      <Separator />
+      {/* <Separator /> */}
 
       {/* Existing reviews */}
       {reviews === undefined ? (

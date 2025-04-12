@@ -14,7 +14,7 @@ export default function FavouritesPage() {
         Favourites
       </div>
 
-      <div className='mt-4 flex flex-col gap-4'>
+      <div className='mt-4 flex flex-wrap gap-4'>
         {favourites.length === 0 && (
           <div className='text-center'>
             <HeartCrack size={64} className='mx-auto mb-4' />

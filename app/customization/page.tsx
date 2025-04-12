@@ -246,7 +246,7 @@ export default function Customization() {
         </div>
 
         <div className='mt-12 grid grid-cols-2 gap-2 w-fit mx-auto'>
-          <Button onClick={() => router.push('/cart')} disabled={loading} className='mx-auto px-4 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
+          <Button disabled={loading} className='mx-auto px-4 bg-yellow-300 hover:bg-amber-300  drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-black font-semibold'>
             {loading ? 'Uploading' : 'Buy Now'}
           </Button>
           <Button disabled={loading} className='mx-auto px-4 bg-black hover:bg-black drop-shadow-[3px_3px_black] hover:drop-shadow-[5px_5px_black] text-white font-semibold'>

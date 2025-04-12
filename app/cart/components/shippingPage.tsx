@@ -145,6 +145,7 @@ export default function ShippingPage({
 
         paymentObject.on('payment.failed', function (response: any) {
           alert(response.error.description);
+          setLoading(false)
         });
 
         paymentObject.open();

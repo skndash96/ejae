@@ -10,7 +10,13 @@ export default async function ProductPage({
   try {
     const { productId } = await params
 
-    const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_ORIGIN! + '/api/products/' + productId)
+    console.log(process.env.NEXT_PUBLIC_BACKEND_ORIGIN! + '/api/products/' + productId)
+
+    const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_ORIGIN! + '/api/products/' + productId, {
+      next: {
+        revalidate: 60 // 60 seconds
+      }
+    })
 
     const json = await res.json()
     const product = json.data as Product
@@ -20,9 +26,7 @@ export default async function ProductPage({
     }
 
     return (
-      <div className="grow">
-        <ProductComponent product={product} />
-      </div>
+      <ProductComponent product={product} />
     )
   } catch (error) {
     console.error('Error fetching product:', error)
