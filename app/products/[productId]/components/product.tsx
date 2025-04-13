@@ -2,8 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/cartContext';
 import React, { useState } from 'react'
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Carousel from './carousel'
 import { Star, StarHalf, Check, Trash2, ChevronLeft, Heart } from 'lucide-react';
 import { Product } from '@/app/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -37,13 +36,7 @@ export default function ProductComponent({ product }: { product: Product }) {
         <ChevronLeft size={16} />
       </Button>
 
-      <Carousel className='p-2 w-full max-w-80 h-fit mx-auto shadow-lg bg-gray-200 rounded-lg' showArrows={true} infiniteLoop>
-        {product.images.map((img, index) => (
-          <div key={index}>
-            <img src={img.url} alt={product.name} className='rounded-xl' />
-          </div>
-        ))}
-      </Carousel>
+      <Carousel imageUrls={product.images.map(img => img.url)} label={product.name} />
 
       <div className='flex-1'>
         <h1 className='text-3xl font-bold'>{product.name}</h1>

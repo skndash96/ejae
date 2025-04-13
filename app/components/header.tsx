@@ -23,7 +23,7 @@ export function Header() {
   const { currentUser, userLoading } = useUserContext()
 
   return (
-    <header className="py-4 sticky z-[3] top-0 bg-[#d9d9d9bb] backdrop-blur-lg flex justify-between gap-4 border-neutral-400 border-b">
+    <header className="py-4 sticky z-[999] top-0 bg-[#d9d9d9bb] backdrop-blur-lg flex justify-between gap-4 border-neutral-400 border-b">
       <h1 className="px-4">
         <Link href="/">
           <Image src='/images/logo.png' width={50} height={30} alt="Logo" />
@@ -87,7 +87,7 @@ export function Header() {
           <DrawerTrigger className="lg:hidden">
             <Menu className="text-white drop-shadow-[2px_2px_black]" />
           </DrawerTrigger>
-          <DrawerContent className="bg-white">
+          <DrawerContent className="z-[1000] bg-white">
             <DrawerHeader>
               <div className="flex justify-between items-center">
                 <DrawerTitle className="font-lucky">Menu</DrawerTitle>
