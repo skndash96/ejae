@@ -30,7 +30,7 @@ export default function Carousel({
         zoomContainerBorder='10px double orange'
         // @ts-expect-error: Typescript doesn't recognize the `mouseActivation` prop
         mouseActivation={MOUSE_ACTIVATION.CLICK}
-        touchActivation={TOUCH_ACTIVATION.TAP}
+        touchActivation={TOUCH_ACTIVATION.DOUBLE_TAP}
       />
 
       <div className='mt-4 p-2 flex flex-wrap max-w-md gap-2'>
