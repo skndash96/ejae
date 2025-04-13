@@ -32,7 +32,7 @@ export default async function Products() {
 
         <Categories />
 
-        <ul className='mt-8 flex flex-col gap-8'>
+        <ul className='mt-8 md:px-8 flex flex-col gap-8'>
           {Array.from(categoryMap.entries()).map(([category, products]) => (
             <li key={category}>
               <h2 className='font-lucky text-2xl'>

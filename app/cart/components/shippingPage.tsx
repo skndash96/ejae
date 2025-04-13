@@ -3,6 +3,7 @@ import { Address, Order, UserData } from '@/app/types'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/context/cartContext'
 import { useUserContext } from '@/context/userContext'
+import { calculateShippingCost } from '@/utils/shippingCost'
 import axios from 'axios'
 import Script from 'next/script'
 import React, { FormEventHandler, useEffect } from 'react'
@@ -72,7 +73,7 @@ export default function ShippingPage({
       return acc + (price * quantity)
     }, 0)
 
-    const shippingPrice = 0
+    const shippingPrice = calculateShippingCost(cart.state.items) * 100 // in PAISA
     const totalPrice = itemsPrice + shippingPrice
 
     try {
@@ -111,10 +112,6 @@ export default function ShippingPage({
 
         const order = orderRes.data.data as Order
 
-        cart.dispatch({
-          type: 'CLEAR_CART'
-        })
-
         const razorPayOptions = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount, //In PAISA
@@ -126,6 +123,10 @@ export default function ShippingPage({
             });
 
             if (res.data?.data?.status === 'paid') {
+              cart.dispatch({
+                type: 'CLEAR_CART'
+              })
+              
               onNext()
             }
 
@@ -144,7 +145,7 @@ export default function ShippingPage({
         const paymentObject = new window.Razorpay(razorPayOptions);
 
         paymentObject.on('payment.failed', function (response: any) {
-          alert(response.error.description);
+          console.error(response.error);
           setLoading(false)
         });
 

@@ -1,10 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/context/cartContext'
+import { calculateShippingCost } from '@/utils/shippingCost'
 import { Trash } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 export default function CartPage({
   onNext
@@ -16,6 +17,7 @@ export default function CartPage({
   const router = useRouter();
 
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const shippingCost = useMemo(() => calculateShippingCost(items), [items]);
 
   return (
     <div className='grow px-4 py-8 flex flex-col justify-center lg:flex-row gap-8 animate-in slide-in-from-left'>
@@ -85,9 +87,9 @@ export default function CartPage({
           <span>Sub Total</span>
           <span>₹{(subtotal/100).toFixed(2)}</span>
           <span>Shipping</span>
-          <span>₹{items.length > 0 ? 'Free' : '0'}</span>
+          <span>₹{shippingCost === 0 ? "Free" : shippingCost}</span>
           <span className='mt-2'>Grand Total</span>
-          <span className='mt-2'>₹{(subtotal/100).toFixed(2)}</span>
+          <span className='mt-2'>₹{(subtotal/100 + shippingCost).toFixed(2)}</span>
 
           {items.filter(item => item.price === 0).length > 0 && (
             <p className='mt-2 col-span-2 text-black'>
