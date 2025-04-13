@@ -28,7 +28,7 @@ export default function Carousel({
         className="w-full max-w-md rounded-xl"
         alwaysInPlace={false}
         zoomContainerBorder='10px double orange'
-        //@ts-expect-error
+        // @ts-expect-error: Typescript doesn't recognize the `mouseActivation` prop
         mouseActivation={MOUSE_ACTIVATION.CLICK}
         touchActivation={TOUCH_ACTIVATION.TAP}
       />
