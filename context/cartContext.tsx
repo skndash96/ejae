@@ -1,5 +1,4 @@
 'use client'
-import { Product } from '@/app/types';
 import React, { createContext, useReducer, useEffect, ReactNode, useContext } from 'react';
 import { OrderItem } from '@/app/types';
 

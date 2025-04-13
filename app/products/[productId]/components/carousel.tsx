@@ -1,10 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import {
-  SideBySideMagnifier,
-  MOUSE_ACTIVATION,
-  TOUCH_ACTIVATION
-} from "react-image-magnifiers";
+import Magnifier from 'react-magnifier';
 
 export default function Carousel({
   label,
@@ -21,16 +17,11 @@ export default function Carousel({
         {idx + 1} of {imageUrls.length}
       </span>
     
-      <SideBySideMagnifier
-        imageSrc={imageUrls[idx]}
-        imageAlt={label + idx}
-        largeImageSrc={imageUrls[idx]}
+      {/* @ts-expect-error: Typescript bug */}
+      <Magnifier
+        src={imageUrls[idx]}
+        zoomFactor={1.5}        
         className="w-full max-w-md rounded-xl"
-        alwaysInPlace={false}
-        zoomContainerBorder='10px double orange'
-        // @ts-expect-error: Typescript doesn't recognize the `mouseActivation` prop
-        mouseActivation={MOUSE_ACTIVATION.CLICK}
-        touchActivation={TOUCH_ACTIVATION.DOUBLE_TAP}
       />
 
       <div className='mt-4 p-2 flex flex-wrap max-w-md gap-2'>
