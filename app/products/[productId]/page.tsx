@@ -10,8 +10,6 @@ export default async function ProductPage({
   try {
     const { productId } = await params
 
-    console.log(process.env.NEXT_PUBLIC_BACKEND_ORIGIN! + '/api/products/' + productId)
-
     const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_ORIGIN! + '/api/products/' + productId, {
       next: {
         revalidate: 60 // 60 seconds
