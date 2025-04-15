@@ -25,7 +25,7 @@ export default function CartPage({
         <h1 className='text-2xl font-lucky text-center mb-4'>
           Cart Items
         </h1>
-        
+
         <div className='max-w-4xl mx-auto min-w-fit'>
           <ul className='pr-4 grid place-items-center grid-cols-[20rem_1fr_1fr_1fr_1fr] gap-4 rounded-2xl bg-black text-white font-lucky *:text-center'>
             <li>Cart Item</li>
@@ -49,7 +49,7 @@ export default function CartPage({
                     </div>
                   </div>
 
-                  <div> {item.price > 0 ? '₹' + (item.price/100).toFixed(2) : '*'}</div>
+                  <div> {item.price > 0 ? '₹' + (item.price / 100).toFixed(2) : '*'}</div>
 
                   <div className='bg-neutral-100 border border-neutral-300 flex items-center rounded-xl gap-2'>
                     <Button variant='ghost' className='hover:bg-neutral-200' onClick={() => dispatch({ type: item.quantity === 1 ? 'REMOVE_ITEM' : 'ADD_ITEM', payload: { ...item, quantity: item.quantity - 1 } })}>-</Button>
@@ -85,11 +85,11 @@ export default function CartPage({
 
         <div className='mt-8 grid grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700'>
           <span>Sub Total</span>
-          <span>₹{(subtotal/100).toFixed(2)}</span>
+          <span>₹{(subtotal / 100).toFixed(2)}</span>
           <span>Shipping</span>
           <span>₹{shippingCost === 0 ? "Free" : shippingCost}</span>
           <span className='mt-2'>Grand Total</span>
-          <span className='mt-2'>₹{(subtotal/100 + shippingCost).toFixed(2)}</span>
+          <span className='mt-2'>₹{(subtotal / 100 + shippingCost).toFixed(2)}</span>
 
           {items.filter(item => item.price === 0).length > 0 && (
             <p className='mt-2 col-span-2 text-black'>
@@ -101,9 +101,11 @@ export default function CartPage({
             <Button onClick={() => router.back()} variant='outline' className='px-8 py-2 cursor-pointer border border-gray-400 rounded-xl text-sm'>
               Continue Shopping
             </Button>
-            <button onClick={onNext} className='px-8 py-2 bg-yellow-300 cursor-pointer font-lucky block rounded-tl-2xl rounded-br-2xl shadow-[3px_3px_black]'>
-              Checkout
-            </button>
+            {(subtotal / 100 + shippingCost) > 0 && (
+              <button onClick={onNext} className='px-8 py-2 bg-yellow-300 cursor-pointer font-lucky block rounded-tl-2xl rounded-br-2xl shadow-[3px_3px_black]'>
+                Checkout
+              </button>
+            )}
           </div>
         </div>
       </div>

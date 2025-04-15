@@ -7,7 +7,7 @@ export default function Help() {
   const url = `https://wa.me/+917023530736?text=${encodeURIComponent(defaultText)}`
 
   return (
-    <div className='fixed z-[1]  bottom-6 right-6 md:bottom-12 md:right-12'>
+    <div className='fixed z-[1] bottom-6 right-6 md:right-12'>
       <Link
         target='_blank'
         rel='noopener noreferrer'

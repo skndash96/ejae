@@ -13,7 +13,7 @@ export default function Carousel({
 
   return (
     <div className='carousel relative max-w-fit h-fit mx-auto'>
-      <span className='absolute top-4 right-4 text-white z-[998] drop-shadow-[0px_0px_12px_#000000aa,2px_2px_black]'>
+      <span className='absolute top-4 right-4 text-white drop-shadow-[0px_0px_12px_#000000aa,2px_2px_black]'>
         {idx + 1} of {imageUrls.length}
       </span>
     
