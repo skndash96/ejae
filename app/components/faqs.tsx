@@ -3,6 +3,29 @@ import Image from 'next/image';
 import * as motion from 'framer-motion/client';
 import React from 'react';
 
+const faqs = [
+  {
+    title: "How do I customize my apparel?",
+    content: "You can upload your own design or use our built-in AI tool to generate one. Then choose colors, text, and placement before checking out.",
+  },
+  {
+    title: "What types of clothing can I customize?",
+    content: "We currently support T-shirts, hoodies, jeans, caps, and tote bags. More options are on the way!",
+  },
+  {
+    title: "How long does delivery take?",
+    content: "Customized orders usually take 5–7 business days to ship. You'll get tracking info via email once it’s on the way.",
+  },
+  {
+    title: "Can I make changes after placing an order?",
+    content: "Once an order goes into production, changes aren’t possible. But if you message us within 30 minutes, we’ll do our best to help.",
+  },
+  {
+    title: "Do you offer bulk or group orders?",
+    content: "Yes! For college fests, team merch, or brand collabs, drop us a message—we offer discounts and design support for bulk orders.",
+  },
+];
+
 export default function Faqs() {
   return (
     <section id="faqs" className='p-8 py-16 relative'>
@@ -19,28 +42,7 @@ export default function Faqs() {
       </motion.h1>
 
       <Accordion type="multiple" className='mt-8 max-w-2xl mx-auto flex flex-col gap-2'>
-        {[
-          {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          },
-          {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          },
-          {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          },
-          {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          },
-          {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          },
-        ].map((item, i) => (
+        {faqs.map((item, i) => (
           <motion.div 
             key={i}
             initial={{ opacity: 0, y: 30 }}
@@ -53,7 +55,6 @@ export default function Faqs() {
                 <AccordionTrigger className='font-semibold'>
                   {item.title}
                 </AccordionTrigger>
-
                 <AccordionContent className='duration-200'>
                   {item.content}
                 </AccordionContent>

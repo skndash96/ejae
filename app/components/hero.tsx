@@ -6,7 +6,7 @@ import * as motion from 'framer-motion/client';
 export default function Hero() {
   return (
     <main id="hero" className="mx-8 mt-16 relative text-center flex flex-col">
-      <motion.h1 
+      <motion.h1
         className="text-5xl sm:text-6xl md:text-8xl font-bangers text-[#5a5a5a]"
         initial={{ opacity: 0, y: -10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -16,7 +16,7 @@ export default function Hero() {
         Hop into custom
       </motion.h1>
 
-      <motion.div 
+      <motion.div
         className="mt-6 w-fit mx-auto px-4 max-w-md flex flex-col items-center justify-center gap-4"
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -26,7 +26,7 @@ export default function Hero() {
         <Image className="-ml-8 mr-4 sm:mr-8 top-0 lg:hidden w-36" src="/images/char-peace.png" width={200} height={400} alt="Charecter" aria-hidden />
 
         <p className="text-sm text-left md:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          Be the designer of your drip. From jeans to kicks, make every thread scream you.
         </p>
 
         <Link href="/products" className="px-6 py-2 block w-fit text-lg bg-yellow-300 font-lucky rounded-tl-xl rounded-br-xl border border-black">
@@ -34,7 +34,7 @@ export default function Hero() {
         </Link>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: -10 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
@@ -43,8 +43,8 @@ export default function Hero() {
       >
         <Image src="/images/char-peace.png" width={200} height={400} alt="Charecter" aria-hidden />
       </motion.div>
-      
-      <motion.div 
+
+      <motion.div
         initial={{ opacity: 0, x: 10 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
@@ -54,7 +54,7 @@ export default function Hero() {
         <Image src="/images/char-cool.png" width={150} height={400} alt="Charecter" aria-hidden />
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="mt-8 lg:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-20 gap-y-4 w-fit mx-auto"
         initial="hidden"
         whileInView="visible"
@@ -69,24 +69,24 @@ export default function Hero() {
       >
         {[
           {
-            title: 'Lorem Ipsum',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.'
+            title: "DESIGN YOUR STYLE",
+            description: "Pick your piece, slap on your text, image, or go wild with patches, colors, and patterns.",
           },
           {
-            title: 'Lorem Ipsum',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.'
+            title: "SEE IT LIVE",
+            description: "Get a real-time preview of your custom fit before we stitch it to life.",
           },
           {
-            title: 'Lorem Ipsum',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.'
+            title: "MADE FOR YOU",
+            description: "Once you're happy, we craft it—no mass production, just one-of-one heat.",
           },
           {
-            title: 'Lorem Ipsum',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.'
+            title: "DELIVERED FAST",
+            description: "From the lab to your doorstep, fresh and fire—without the wait.",
           },
         ].map((item, i) => (
-          <motion.div 
-            key={i} 
+          <motion.div
+            key={i}
             className="mt-8 p-4 w-60 bg-white border border-black rounded-xl shadow-[-10px_15px_black]"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
