@@ -12,6 +12,7 @@ import { FavouritesProvider } from "@/context/favContext";
 
 export const metadata: Metadata = {
   title: "Ejae",
+  metadataBase: new URL("https://ejae.vercel.app"),
   description: "Your style, your way.",
 };
 
