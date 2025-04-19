@@ -9,6 +9,7 @@ import Footer from "./components/footer";
 import { CartProvider } from "@/context/cartContext";
 import Help from "./components/help";
 import { FavouritesProvider } from "@/context/favContext";
+import { CategoriesProvider } from "@/context/categoriesContext";
 
 export const metadata: Metadata = {
   title: "Ejae",
@@ -32,19 +33,22 @@ export default function RootLayout({
       <UserProvider>
         <CartProvider>
           <FavouritesProvider>
-            <body>
-              <ProtectRoute />
+            <CategoriesProvider>
 
-              <div id="wrapper" className="min-h-screen flex flex-col">
-                <FixHeight />
-                <Header />
-                {children}
-                <Footer />
-              </div>
+              <body>
+                <ProtectRoute />
 
-              <ToastContainer />
-              <Help />
-            </body>
+                <div id="wrapper" className="min-h-screen flex flex-col">
+                  <FixHeight />
+                  <Header />
+                  {children}
+                  <Footer />
+                </div>
+
+                <ToastContainer />
+                <Help />
+              </body>
+            </CategoriesProvider>
           </FavouritesProvider>
         </CartProvider>
       </UserProvider>

@@ -1,3 +1,9 @@
+export interface Category {
+  name: string;
+  imageUrl: string;
+  startingPrice: number;
+}
+
 export interface UserData {
   name: string;
   birthday?: string;
